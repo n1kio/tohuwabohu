@@ -1,7 +1,11 @@
-import React from 'react'
+import { ReactNode } from 'react'
 
-export const App = () => (
-    <div>
-        <h1>Willkommen beim Freizeit Planer!</h1>
-    </div>
+interface RouteProps {
+    content: ReactNode
+}
+
+const App = (props: RouteProps) => (
+    props.content
 )
+
+export default App
