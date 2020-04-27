@@ -1,8 +1,8 @@
 module.exports = {
     servers: {
         one: {
-            host: '52.59.247.168',
-            username: 'ec2-user',
+            host: '3.126.207.88',
+            username: 'ubuntu',
             pem: '~/.ssh/aws.pem'
         }
     },
@@ -20,14 +20,16 @@ module.exports = {
         },
 
         env: {
-            // If you are using ssl, it needs to start with https://
-            ROOT_URL: 'http://52.59.247.168/',
-            MONGO_URL: 'mongodb://mongodb/meteor',
-            MONGO_OPLOG_URL: 'mongodb://mongodb/local',
+            ROOT_URL: 'http://3.126.207.88/',
+            MONGO_URL: 'mongodb://localhost/meteor',
+            PORT: 3000
         },
 
         docker: {
-            image: 'abernix/meteord:node-8.4.0-base',
+            image: 'abernix/meteord:node-12-binbuild',
+            prepareBundle: false,
+            buildInstructions: [
+            ]
         },
 
         // Show progress bar while uploading bundle to server
@@ -36,7 +38,7 @@ module.exports = {
     },
 
     mongo: {
-        version: '3.4.1',
+        version: '4.2.5',
         servers: {
             one: {}
         }
