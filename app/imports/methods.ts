@@ -6,6 +6,8 @@ const maximumTimeslots = 4
 
 Meteor.methods({
     'events.create': (event : Event) => {
+        // TODO make all fields mandatory
+
         if (event.participants.length > 1){
             throw new Meteor.Error(500, 'There can only be a single event author.')
         }

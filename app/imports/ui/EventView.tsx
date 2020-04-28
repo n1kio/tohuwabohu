@@ -6,7 +6,17 @@ import { Event, Participant } from '/imports/api/events'
 import ls from 'local-storage'
 
 import { Layout } from '/imports/ui/Layout'
+import Timeslot from '/imports/ui/Timeslot'
 import { Select } from '/imports/ui/Primitives'
+
+const uniqueTimeslots = (event : Event) => {
+    let timeslots = new Set()
+    const participants = event.participants || []
+    participants.forEach((participant) => {
+        timeslots.add(participant.timeslots)
+    })
+    return Array.from(timeslots)
+}
 
 const defaultText = (text : string | undefined) => {
     if(text === '') {
@@ -64,40 +74,34 @@ const EventView = () => {
     }, [])
 
     return (
-        <Layout> {event ? (
+        <Layout>
+            {event ? (
                 <div>
                     <UserSelection participants={event.participants} selected={ls('userEmail')} />
-                    <h1>Titel: {defaultText(event.title)}</h1>
+                    <p>
+                        {event.authorName} hat dich zu einem Online-Treffen eingeladen.
+                    </p>
 
-                    <h2>Beschreibung</h2>
+                    <hr/>
+
+                    <h1>{defaultText(event.title)}</h1>
                     <p>{defaultText(event.description)}</p>
 
-                    <h2>Organisator</h2>
-                    <p>{defaultText(event.authorName)}</p>
+                    <p>Raum: {defaultText(event.space)}</p>
 
-                    <h2>Raum</h2>
-                    <p>{defaultText(event.space)}</p>
+                    <hr/>
 
-                    <h2>Terminvorschläge</h2>
-                    <ul>
-                        {(event && event.participants) ? event.participants.map((participant, i) => {
-                            return (
-                                <li key={i}>
-                                    <h3>{participant.email} {participant.email === event.authorEmail ? "(Ersteller)" : null}</h3>
-                                    <ul>
-                                        <li>{participant.timeslots.map((slot : Date) => '' + slot)}</li>
-                                    </ul>
-                                </li>
-                            )
-                        }) : <h1>Loading</h1>}
-                    </ul>
+                    <h2>Wann kannst du?</h2>
+                    <div>
+                        {(event && event.participants) ? uniqueTimeslots(event).map((timeslot, i) => {
+                            return <Timeslot key={i} datetime={timeslot} />
+                        }) : null}
+                    </div>
 
-                    <h2>Link zum Weiterschicken</h2>
-                    <p>{'' + window.location}</p>
+                    {/* TODO real share link */}
+                    <p>Link zum Teilen: <a href={'' + window.location}>{'' + window.location}</a></p>
                 </div>
-        ) : (
-                null
-            )}
+            ) : null}
         </Layout>
     )
 }
