@@ -19,10 +19,25 @@ const Header = () => {
     </HeaderStyle>
 }
 
+const FooterStyle = styled.div``
+const Footer = () => {
+    return <FooterStyle>
+    </FooterStyle>
+}
+
+const Container = styled.div`
+    max-width: 1000px;
+    margin: auto;
+    padding: 0 15px;
+`
+
 const Layout = (props : LayoutProps) => (
     <div>
         <Header/>
-        <div>{props.children}</div>
+        <Container>
+            {props.children}
+        </Container>
+        <Footer/>
     </div>
 )
 
