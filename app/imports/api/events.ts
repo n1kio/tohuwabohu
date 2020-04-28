@@ -1,14 +1,20 @@
 import { Mongo } from 'meteor/mongo'
 
+interface Participant {
+    email: string
+    timeslots: [Date]
+}
+
 interface Event {
     _id?: string
-    title: string
+    title?: string
     space?: string
-    authorId: string
-    authorEmail: string
+    authorId?: string
+    authorEmail?: string
     authorName?: string
-    description: string
-    createdAt: Date
+    description?: string
+    participants?: [Participant]
+    createdAt?: Date
 }
 
 const EventsCollection = new Mongo.Collection<Event>('events')

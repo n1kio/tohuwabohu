@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
 
 interface RouteProps {
-    content: ReactNode
+    content?: ReactNode
 }
 
 const App = (props: RouteProps) => (
-    props.content
+    props.content || null
 )
 
 export default App
