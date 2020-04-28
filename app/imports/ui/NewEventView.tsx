@@ -9,24 +9,21 @@ import { Button, Input } from '/imports/ui/Primitives'
 import { Event } from '/imports/api/events'
 
 const NewEventView = () => {
+    const [authorName, setAuthorName] = useState('')
     const [authorEmail, setAuthorEmail] = useState('')
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [space, setSpace] = useState('')
     const [authorTimeslots, setAuthorTimeslots] = useState([])
 
-    /* Meteor.setTimeout(() => {
-     *     setAuthorEmail('niklasappelmann@gmail.com')
-     *     setTitle('Lass mal zocken')
-     *     setSpace('discord')
-     *     setAuthorTimeslots([new Date])
-     * }, 0) */
-
     return (
         <Layout>
             <h1>Neues Event erstellen</h1>
 
             <form onSubmit={(e) => {e.preventDefault()}}>
+                <h2>Dein Name</h2>
+                <Input onChange={(e : any) => {setAuthorName(e.target.value)}} type="text" />
+
                 <h2>Deine E-Mail Adresse</h2>
                 <Input onChange={(e : any) => {setAuthorEmail(e.target.value)}} type="email" />
 
@@ -70,6 +67,7 @@ const NewEventView = () => {
                 <Button onClick={() => {
                     let event : Event = {
                         authorEmail,
+                        authorName,
                         title,
                         description,
                         space,

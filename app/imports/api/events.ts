@@ -2,6 +2,7 @@ import { Mongo } from 'meteor/mongo'
 
 interface Participant {
     email: string
+    authorName: string
     timeslots: [Date]
 }
 
