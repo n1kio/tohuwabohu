@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 import Swal from 'sweetalert2'
 import DatePicker from 'react-datepicker'
+import ls from 'local-storage'
 
 import { Layout } from '/imports/ui/Layout'
 import { Button, Input } from '/imports/ui/Primitives'
@@ -65,6 +66,9 @@ const NewEventView = () => {
                 <hr/>
 
                 <Button onClick={() => {
+                    // TODO test if selected
+                    ls('userEmail', authorEmail)
+
                     let event : Event = {
                         authorEmail,
                         authorName,
@@ -72,10 +76,12 @@ const NewEventView = () => {
                         description,
                         space,
                         participants: [{
+                            name: authorName,
                             email: authorEmail,
                             timeslots: authorTimeslots
                         }]
                     }
+
                     Meteor.call('events.create', event, (err : any, res : any) => {
                         if(err) {
                             Swal.fire({

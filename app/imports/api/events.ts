@@ -2,7 +2,7 @@ import { Mongo } from 'meteor/mongo'
 
 interface Participant {
     email: string
-    authorName: string
+    name: string
     timeslots: [Date]
 }
 
@@ -20,4 +20,4 @@ interface Event {
 
 const EventsCollection = new Mongo.Collection<Event>('events')
 
-export {EventsCollection, Event}
+export {EventsCollection, Event, Participant}

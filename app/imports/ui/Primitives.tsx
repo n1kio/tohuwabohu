@@ -8,7 +8,12 @@ const Input = styled.input`
     display: block;
 `
 
+const Select = styled.select`
+`
+
+
 export {
     Button,
-    Input
+    Input,
+    Select
 }

@@ -4,8 +4,16 @@ interface LayoutProps {
     children: ReactNode
 }
 
+const Header = () => {
+    return <div>
+    </div>
+}
+
 const Layout = (props : LayoutProps) => (
-    <div>{props.children}</div>
+    <div>
+        <Header/>
+        <div>{props.children}</div>
+    </div>
 )
 
 export {
