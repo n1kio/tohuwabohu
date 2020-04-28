@@ -1,11 +1,16 @@
 import { Mongo } from 'meteor/mongo'
 
-export interface Event {
+interface Event {
     _id?: string
     title: string
-    url: string
-    author: string
+    space?: string
+    authorId: string
+    authorEmail: string
+    authorName?: string
+    description: string
     createdAt: Date
 }
 
-export const EventsCollection = new Mongo.Collection<Event>('events')
+const EventsCollection = new Mongo.Collection<Event>('events')
+
+export {EventsCollection, Event}

@@ -5,7 +5,7 @@ import { mount } from 'react-mounter'
 import App from '/imports/ui/App'
 import Dashboard from '/imports/ui/Dashboard'
 import EventView from '/imports/ui/EventView'
-import NewEventView from '/imports/ui/EventView'
+import NewEventView from '/imports/ui/NewEventView'
 
 FlowRouter.route('/', {
     name: 'root',
@@ -17,7 +17,7 @@ FlowRouter.route('/', {
 })
 
 FlowRouter.route('/new', {
-    name: 'new',
+    name: 'new-event',
     action() {
         mount(App, {
             content: <NewEventView/>
