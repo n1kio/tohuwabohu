@@ -77,10 +77,9 @@ const EventView = () => {
         <Layout>
             {event ? (
                 <div>
+                    <p>{event.authorName} hat dich zu einem Online-Treffen eingeladen.</p>
+
                     <UserSelection participants={event.participants} selected={ls('userEmail')} />
-                    <p>
-                        {event.authorName} hat dich zu einem Online-Treffen eingeladen.
-                    </p>
 
                     <hr/>
 

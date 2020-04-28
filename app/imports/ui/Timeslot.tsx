@@ -18,8 +18,8 @@ const Timeslot = (props : TimeslotProps) => {
     return (
         <TimeslotStyle>
             <h3>{'' + props.datetime}</h3>
-            <button>JA</button>
-            <button>NEIN</button>
+            <button onClick={() => {}}>JA</button>
+            <button onClick={() => {}}>NEIN</button>
         </TimeslotStyle>
     )
 }
