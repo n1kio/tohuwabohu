@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker'
 import ls from 'local-storage'
 
 import { Layout } from '/imports/ui/Layout'
-import { Button, Input } from '/imports/ui/Primitives'
+import { Button, FullInput } from '/imports/ui/Primitives'
 import { Event } from '/imports/api/events'
 
 const NewEventView = () => {
@@ -23,19 +23,19 @@ const NewEventView = () => {
 
             <form onSubmit={(e) => {e.preventDefault()}}>
                 <h2>Dein Name</h2>
-                <Input onChange={(e : any) => {setAuthorName(e.target.value)}} type="text" />
+                <FullInput onChange={(e : any) => {setAuthorName(e.target.value)}} type="text" />
 
                 <h2>Deine E-Mail Adresse</h2>
-                <Input onChange={(e : any) => {setAuthorEmail(e.target.value)}} type="email" />
+                <FullInput onChange={(e : any) => {setAuthorEmail(e.target.value)}} type="email" />
 
                 <h2>Titel des Events</h2>
-                <Input onChange={(e : any) => {setTitle(e.target.value)}} type="text" />
+                <FullInput onChange={(e : any) => {setTitle(e.target.value)}} type="text" />
 
                 <h2>Beschreibung des Events</h2>
-                <Input onChange={(e : any) => {setDescription(e.target.value)}} type="text" />
+                <FullInput onChange={(e : any) => {setDescription(e.target.value)}} type="text" />
 
                 <h2>Raum des Events</h2>
-                <Input onChange={(e : any) => {setSpace(e.target.value)}} type="text" />
+                <FullInput onChange={(e : any) => {setSpace(e.target.value)}} type="text" />
 
                 <h2>Terminvorschläge (maximal 4)</h2>
                 <Button onClick={() => {
@@ -59,6 +59,7 @@ const NewEventView = () => {
                                timeFormat="HH:mm"
                                timeIntervals={15}
                                timeCaption="time"
+                               minDate={new Date()}
                                dateFormat="MMMM d, yyyy HH:mm"
                     />
                 })}

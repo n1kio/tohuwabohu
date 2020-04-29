@@ -51,14 +51,12 @@ const UserSelection = (props : UserSelectionProps) => {
     return (
         <div>
             <span>Du bist </span>
-            <Select type="dropdown"
-                    value={selected}
-                    onChange={(e) => {
-                        setSelected(e.target.value)
-                        ls('userEmail', e.target.value)
-                    }}
+            <Select type="dropdown" value={selected} onChange={(e)=> {
+                setSelected(e.target.value)
+                ls('userEmail', e.target.value)
+            }}
             >
-                <option value="">Namen auswählen</option>
+                <option value="">Namen wählen</option>
                 {props.participants.map((participant, i) => {
                     return (
                         <option key={i} value={participant.email}>
@@ -94,14 +92,14 @@ const EventView = () => {
 
                     <UserSelection participants={event.participants} selected={ls('userEmail')} />
 
-                    <hr/>
+                    <hr />
 
                     <h1>{defaultText(event.title)}</h1>
                     <p>{defaultText(event.description)}</p>
 
                     <p>Raum: {defaultText(event.space)}</p>
 
-                    <hr/>
+                    <hr />
 
                     <h2>Vorschlag bestätigen oder hinzufügen</h2>
                     <div>

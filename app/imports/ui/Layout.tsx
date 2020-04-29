@@ -15,7 +15,7 @@ const HeaderStyle = styled.div`
 
 const Header = () => {
     return <HeaderStyle>
-        Freizeit Planer
+        Online Freizeit Organisator
     </HeaderStyle>
 }
 
