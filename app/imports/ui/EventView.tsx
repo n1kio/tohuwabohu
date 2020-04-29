@@ -196,7 +196,6 @@ const EventView = () => {
                                     return (
                                         <FullButton key={i} primary={confirmed} onClick={() => {
                                             Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
-                                                console.log('before load')
                                                 if(err) {
                                                     Swal.fire({
                                                         title: 'Konnte Vorschlag nicht akzeptieren.',
