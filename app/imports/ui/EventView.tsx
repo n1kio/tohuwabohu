@@ -60,14 +60,16 @@ const UserSelection = (props : UserSelectionProps) => {
     return (
         <div>
             <span>Du bist </span>
-            <Select type="dropdown" value={selected} onChange={(e) => {
+            <Select type="dropdown" value={selected || ''} onChange={(e) => {
                 const newUserEmail = e.target.value
                 setSelected(newUserEmail)
                 ls('userEmail', newUserEmail)
                 changeCb(newUserEmail)
             }}
             >
-                <option value="">Namen wählen</option>
+                {!ls('userEmail') ? (
+                    <option value="">Namen wählen</option>
+                ) : null}
                 {props.participants?.map((participant, i) => {
                     return (
                         <option key={i} value={participant.email}>
@@ -151,7 +153,7 @@ const EventView = () => {
     const [propose, setPropose] = useState<Boolean>()
 
     // hooks for storing the actually proposed time in state
-    const [proposeTimeslot, setProposeTimeslot] = useState<Date>()
+    const [proposedTimeslot, setProposeTimeslot] = useState<Date>()
 
     const eventId = FlowRouter.getParam('eventId')
 
@@ -185,67 +187,72 @@ const EventView = () => {
 
                     <hr />
 
-                    <h2>Vorschlag bestätigen oder hinzufügen</h2>
-                    <div>
-                        {(event && event.participants) ? uniqueTimeslots(event).map((timeslot, i) => {
-                            const confirmed = hasParticipantTimeslot(event.participants, userEmail, timeslot)
-                            return (
-                                <FullButton key={i} primary={confirmed} onClick={() => {
-                                    Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail: ls('userEmail')}, (err) => {
-                                        if(err) {
-                                            Swal.fire({
-                                                title: 'Konnte Vorschlag nicht akzeptieren.',
-                                                text: err,
-                                                icon: 'error'
-                                            })
-                                        } else {
-                                            loadEvent(eventId, setEvent)
-                                        }
-                                    })
-                                }}>
-                                    <div>
-                                        <div>{'' + timeslot}</div>
-                                        <div>{confirmed ? "(bestätigt)" : "(unbestätigt)"}</div>
-                                    </div>
-                                </FullButton>
-                            )
-                        }) : null}
+                    {userEmail ? (
                         <div>
-                            <DatePicker timeFormat="HH:mm"
-                                        timeIntervals={15}
-                                        timeCaption="time"
-                                        minDate={new Date()}
-                                        dateFormat="MMMM d, yyyy HH:mm"
-                                        placeholderText="Neuen Vorschlag hinzufügen"
-                                        showTimeSelect
-                                        selected={proposeTimeslot}
-                                        customInput={<FullInput/>}
-                                        onChange={(date:Date) => {
-                                            setProposeTimeslot(date)
-                                            setPropose(true)
-                                        }}
-                            />
-                            {propose ? (
-                                <Button onClick={() => {
-                                    setPropose(false)
-                                    Meteor.call('events.toggleTimeslot', {eventId: eventId, timeslot: proposeTimeslot, userEmail: ls('userEmail')}, (err, res) => {
-                                        setProposeTimeslot(undefined)
-                                        if(err) {
-                                            Swal.fire({
-                                                title: 'Konnte Vorschlag nicht hinzufügen.',
-                                                text: err,
-                                                icon: 'error'
+                            <h2>Vorschlag bestätigen oder hinzufügen</h2>
+                            <div>
+                                {(event && event.participants) ? uniqueTimeslots(event).map((timeslot, i) => {
+                                    const confirmed = hasParticipantTimeslot(event.participants, userEmail, timeslot)
+                                    return (
+                                        <FullButton key={i} primary={confirmed} onClick={() => {
+                                            Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
+                                                console.log('before load')
+                                                if(err) {
+                                                    Swal.fire({
+                                                        title: 'Konnte Vorschlag nicht akzeptieren.',
+                                                        text: err,
+                                                        icon: 'error'
+                                                    })
+                                                } else {
+                                                    loadEvent(eventId, setEvent)
+                                                }
                                             })
-                                        } else {
-                                            loadEvent(eventId, setEvent)
-                                        }
-                                    })
+                                        }}>
+                                            <div>
+                                                <div>{'' + timeslot}</div>
+                                                <div>{confirmed ? "(bestätigt)" : "(unbestätigt)"}</div>
+                                            </div>
+                                        </FullButton>
+                                    )
+                                }) : null}
+                                <div>
+                                    <DatePicker timeFormat="HH:mm"
+                                                timeIntervals={15}
+                                                timeCaption="time"
+                                                minDate={new Date()}
+                                                dateFormat="MMMM d, yyyy HH:mm"
+                                                placeholderText="Neuen Vorschlag hinzufügen"
+                                                showTimeSelect
+                                                selected={proposedTimeslot}
+                                                customInput={<FullInput/>}
+                                                onChange={(date:Date) => {
+                                                    setProposeTimeslot(date)
+                                                    setPropose(true)
+                                                }}
+                                    />
+                                    {propose ? (
+                                        <Button onClick={() => {
+                                            setPropose(false)
+                                            Meteor.call('events.toggleTimeslot', {eventId, timeslot: proposedTimeslot, userEmail}, (err) => {
+                                                setProposeTimeslot(undefined)
+                                                if(err) {
+                                                    Swal.fire({
+                                                        title: 'Konnte Vorschlag nicht hinzufügen.',
+                                                        text: err,
+                                                        icon: 'error'
+                                                    })
+                                                } else {
+                                                    loadEvent(eventId, setEvent)
+                                                }
+                                            })
 
-                                }}>Vorschlag senden</Button>
-                            ) : null}
+                                        }}>Vorschlag senden</Button>
+                                    ) : null}
 
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ) : null}
 
                     {/* TODO real share link */}
                     <p>Link zum Teilen: <a href={'' + window.location}>{'' + window.location}</a></p>
