@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import colors from '/imports/ui/Colors'
 
 const Button = styled.button`
-    margin: 0 10px;
+    margin-right: 10px;
     cursor: pointer;
 `
 
@@ -36,9 +36,12 @@ const FullInput = styled.input`
 `
 
 const Input = styled.input`
+    margin-right: 10px;
 `
 
 const Select = styled.select`
+    margin-right: 10px;
+    margin-bottom: 10px;
 `
 
 export {
