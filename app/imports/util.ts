@@ -34,4 +34,13 @@ const roundTime = (datetime:Date):Date => {
     return datetime
 }
 
-export { hasParticipantTimeslot, roundTime }
+const eventUrl = (eventId:string):string => {
+    const rootUrl = Meteor.absoluteUrl()
+    return `${rootUrl}e/${eventId}`
+}
+
+export {
+    hasParticipantTimeslot,
+    roundTime,
+    eventUrl
+}

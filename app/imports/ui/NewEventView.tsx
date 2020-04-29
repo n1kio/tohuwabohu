@@ -67,9 +67,10 @@ const NewEventView = () => {
                 <hr/>
 
                 <Button onClick={() => {
-                    // TODO test if selected
+                    // store session user as author
                     ls('userEmail', authorEmail)
 
+                    // create event
                     let event : Event = {
                         authorEmail,
                         authorName,
@@ -82,8 +83,7 @@ const NewEventView = () => {
                             timeslots: authorTimeslots
                         }]
                     }
-
-                    Meteor.call('events.create', event, (err : any, res : any) => {
+                    Meteor.call('events.create', event, (err, res) => {
                         if(err) {
                             Swal.fire({
                                 title: err,

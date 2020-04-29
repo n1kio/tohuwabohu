@@ -8,11 +8,11 @@ interface Participant {
 
 interface Event {
     _id?: string
-    title?: string
-    space?: string
+    title: string
+    space: string
     authorId?: string
-    authorEmail?: string
-    authorName?: string
+    authorEmail: string
+    authorName: string
     description?: string
     participants?: [Participant]
     createdAt?: Date
