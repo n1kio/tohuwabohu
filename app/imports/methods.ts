@@ -1,7 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 
 import { EventsCollection, Event, Participant } from '/imports/api/events'
-import { hasParticipantTimeslot, roundTime } from '/imports/util'
+import { hasParticipantTimeslot, roundTime, eventUrl } from '/imports/util'
+
+import { sendMail } from '/imports/notify'
 
 const maximumTimeslots = 4
 const maximumParticipants = 15
@@ -26,7 +28,15 @@ Meteor.methods({
             event.participants[i].timeslots = roundedTimeslots
 
         })
-        return EventsCollection.insert(event)
+        const eventId = EventsCollection.insert(event)
+        sendMail({
+            to: event.authorEmail!,
+            from: Meteor.settings.public.from_email,
+            subject: 'Glückwunsch, dein Event wurde angelegt!',
+            text: `Das Event mit dem Titel ${event.title} wurde erfolgreich angelegt. Bearbeite es oder lade Freunde unter ${eventUrl(eventId)}`,
+            html: `<h1>${event.title}</h1><p>Das Event mit dem Titel <strong>${event.title}</strong> wurde erfolgreich angelegt.</p><p>Bearbeite es oder lade Freunde unter <a href="${eventUrl(eventId)}">${eventUrl(eventId)}</a></p>`,
+        })
+        return eventId
     },
 
     'events.get': (eventId : string) => {
