@@ -4,16 +4,32 @@ import { FlowRouter } from 'meteor/kadira:flow-router'
 import Swal from 'sweetalert2'
 import { Event, Participant } from '/imports/api/events'
 import ls from 'local-storage'
+import DatePicker from 'react-datepicker'
 
 import { Layout } from '/imports/ui/Layout'
-import Timeslot from '/imports/ui/Timeslot'
-import { Select } from '/imports/ui/Primitives'
+import { FullButton, Button, Select, Input, FullInput } from '/imports/ui/Primitives'
+
+const loadEvent = (eventId, cb) => {
+    Meteor.call('events.get', eventId, (err : any, res : Event) => {
+        if(err) {
+            Swal.fire({
+                'title': 'Konnte Event nicht laden',
+                'text': err,
+                'icon': 'error'
+            })
+        } else {
+            cb(res)
+        }
+    })
+}
 
 const uniqueTimeslots = (event : Event) => {
     let timeslots = new Set()
     const participants = event.participants || []
     participants.forEach((participant) => {
-        timeslots.add(participant.timeslots)
+        participant.timeslots.forEach((timeslot) => {
+            timeslots.add(timeslot)
+        })
     })
     return Array.from(timeslots)
 }
@@ -27,7 +43,7 @@ const defaultText = (text : string | undefined) => {
 
 interface UserSelectionProps {
     participants: [Participant]
-    selected: Participant
+    selected: string
 }
 
 const UserSelection = (props : UserSelectionProps) => {
@@ -57,20 +73,17 @@ const UserSelection = (props : UserSelectionProps) => {
 
 const EventView = () => {
     const [event, setEvent] = useState<Event>()
+
+    // hooks to control the display of the proposal menu
+    const [propose, setPropose] = useState<Boolean>()
+
+    // hooks for storing the actually proposed time in state
+    const [proposeTimeslot, setProposeTimeslot] = useState<Date>()
+
     const eventId = FlowRouter.getParam('eventId')
 
     useEffect(() => {
-        Meteor.call('events.get', eventId, (err : any, res : Event) => {
-            if(err) {
-                Swal.fire({
-                    'title': 'Konnte Event nicht laden',
-                    'text': err,
-                    'icon': 'error'
-                })
-            } else {
-                setEvent(res)
-            }
-        })
+        loadEvent(eventId, setEvent)
     }, [])
 
     return (
@@ -90,11 +103,56 @@ const EventView = () => {
 
                     <hr/>
 
-                    <h2>Wann kannst du?</h2>
+                    <h2>Vorschlag bestätigen oder hinzufügen</h2>
                     <div>
                         {(event && event.participants) ? uniqueTimeslots(event).map((timeslot, i) => {
-                            return <Timeslot key={i} datetime={timeslot} />
+                            return (
+                                <FullButton key={i} onClick={()=> {}}
+                                >
+                                    <p>{'' + timeslot}</p>
+                                </FullButton>
+                            )
                         }) : null}
+                        <div>
+                            <DatePicker timeFormat="HH:mm"
+                                        timeIntervals={15}
+                                        timeCaption="time"
+                                        minDate={new Date()}
+                                        dateFormat="MMMM d, yyyy HH:mm"
+                                        placeholderText="Neuen Vorschlag machen"
+                                        showTimeSelect
+                                        selected={proposeTimeslot}
+                                        onChange={(date) => {
+                                            setProposeTimeslot(date)
+                                            setPropose(true)
+                                        }}
+                            />
+                            {propose ? (
+                                <Button onClick={() => {
+                                    setPropose(false)
+                                    Meteor.call('events.toggleTimeslot', {eventId: eventId, timeslot: proposeTimeslot, userEmail: ls('userEmail')}, (err, res) => {
+                                        setProposeTimeslot(undefined)
+                                        if(err) {
+                                            Swal.fire({
+                                                title: 'Konnte Vorschlag nicht hinzufügen.',
+                                                text: err,
+                                                icon: 'error'
+                                            })
+                                        } else {
+                                            loadEvent(eventId, setEvent)
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Vorschlag angelegt!',
+                                                timer: 1000,
+                                                showConfirmButton: false
+                                            })
+                                        }
+                                    })
+
+                                }}>Vorschlag senden</Button>
+                            ) : null}
+
+                        </div>
                     </div>
 
                     {/* TODO real share link */}
