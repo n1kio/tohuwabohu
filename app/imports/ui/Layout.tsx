@@ -1,21 +1,27 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
+import colors from '/imports/ui/Colors'
 
 interface LayoutProps {
     children: ReactNode
 }
 
 const HeaderStyle = styled.div`
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 1.5rem;
     padding: 10px 0;
     margin: 0;
-    background-color: lightgrey;
-    font-weight: bold;
+    background-image: url('/header.jpg');
+    background-size: cover;
+    background-color: ${colors.medium};
+    color: ${colors.light};
     text-align: center;
 `
 
 const Header = () => {
     return <HeaderStyle>
-        Online Freizeit Organisator
+        TOHUWABOHU
     </HeaderStyle>
 }
 

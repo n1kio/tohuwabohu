@@ -66,7 +66,6 @@ Meteor.methods({
     },
 
     'events.addParticipant': ({eventId, participant} : {eventId : string, participant : Participant}) => {
-        console.log('parti', participant)
         if(!participant) {
             throw new Meteor.Error(500, 'No participant given.')
         }

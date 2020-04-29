@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import colors from '/imports/ui/Colors'
 
 const Button = styled.button`
     margin: 0 10px;
@@ -13,10 +14,10 @@ const FullButtonStyle = styled.div`
     text-align: center;
     border: 1px solid;
     border-radius: 5px;
-    box-shadow: 1px 1px 1px black;
+    box-shadow: 1px 1px 1px ${colors.dark};
     cursor: pointer;
-    background-color: ${props => props.primary ? 'green' : 'inherit'};
-    color: ${props => props.primary ? 'white' : 'inherit'};
+    background-color: ${props => props.primary ? colors.green : 'inherit'};
+    color: ${props => props.primary ? colors.light : 'inherit'};
 `
 
 const FullButton = (props) => {
