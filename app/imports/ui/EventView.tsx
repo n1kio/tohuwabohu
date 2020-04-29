@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker'
 
 import { Layout } from '/imports/ui/Layout'
 import { FullButton, Button, Select, Input, FullInput } from '/imports/ui/Primitives'
+import { hasParticipantTimeslot } from '/imports/util'
 
 const loadEvent = (eventId, cb) => {
     Meteor.call('events.get', eventId, (err : any, res : Event) => {
@@ -23,15 +24,16 @@ const loadEvent = (eventId, cb) => {
     })
 }
 
-const uniqueTimeslots = (event : Event) => {
-    let timeslots = new Set()
+const uniqueTimeslots = (event:Event) => {
+    let timestrings = new Set()
     const participants = event.participants || []
     participants.forEach((participant) => {
-        participant.timeslots.forEach((timeslot) => {
-            timeslots.add(timeslot)
+        participant.timeslots?.forEach((timeslot) => {
+            timestrings.add('' + timeslot)
         })
     })
-    return Array.from(timeslots)
+    const uniqueSlots = Array.from(timestrings).map((timestring) => new Date(timestring))
+    return uniqueSlots
 }
 
 const defaultText = (text : string | undefined) => {
@@ -43,21 +45,30 @@ const defaultText = (text : string | undefined) => {
 
 interface UserSelectionProps {
     participants: [Participant]
-    selected: string
+    selected?: string
+    eventId?: string
+    changeCb?: Function
 }
 
 const UserSelection = (props : UserSelectionProps) => {
     const [selected, setSelected] = useState(props.selected)
+    const [showAdd, setShowAdd] = useState<Boolean>(false)
+    const [newName, setNewName] = useState<string>('')
+    const [newEmail, setNewEmail] = useState<string>('')
+    const changeCb = props.changeCb ? props.changeCb : () => {}
+
     return (
         <div>
             <span>Du bist </span>
-            <Select type="dropdown" value={selected} onChange={(e)=> {
-                setSelected(e.target.value)
-                ls('userEmail', e.target.value)
+            <Select type="dropdown" value={selected} onChange={(e) => {
+                const newUserEmail = e.target.value
+                setSelected(newUserEmail)
+                ls('userEmail', newUserEmail)
+                changeCb(newUserEmail)
             }}
             >
                 <option value="">Namen wählen</option>
-                {props.participants.map((participant, i) => {
+                {props.participants?.map((participant, i) => {
                     return (
                         <option key={i} value={participant.email}>
                             {participant.name}
@@ -65,12 +76,75 @@ const UserSelection = (props : UserSelectionProps) => {
                     )
                 })}
             </Select>
+            {showAdd ? (
+                <div>
+                    <FullInput placeholder="Name"
+                               type="text"
+                               value={newName}
+                               onChange={(e) => {
+                                   setNewName(e.target.value)
+                               }} />
+                    <FullInput placeholder="E-Mail Adresse"
+                               type="email"
+                               value={newEmail}
+                               onChange={(e) => {
+                                   setNewEmail(e.target.value)
+                               }} />
+                    <FullButton onClick={() => {
+                        const participant = {
+                            name: newName,
+                            email: newEmail
+                        }
+                        if([newName, newEmail].includes('')) {
+                            Swal.fire({
+                                text: 'Bitte Namen und E-Mail Adresse für neue Teilnehmer angeben.',
+                                icon: 'warning'
+                            })
+                            return false
+                        }
+                        Meteor.call('events.addParticipant', {eventId: props.eventId, participant}, (err) => {
+                            if(err) {
+                                Swal.fire({
+                                    title: 'Konnte Vorschlag nicht hinzufügen.',
+                                    text: err,
+                                    icon: 'error'
+                                })
+                            } else {
+                                setShowAdd(false)
+                                setNewName('')
+                                setNewEmail('')
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: `${participant.name} hinzugefügt.`,
+                                    timer: 1000,
+                                    showConfirmButton: false
+                                })
+                            }
+                        })
+                    }}>
+                        Teilnehmer hinzufügen
+                    </FullButton>
+                    <FullButton onClick={()=>{
+                        setShowAdd(false)
+                        setNewName('')
+                        setNewEmail('')
+                    }}>
+                        abbrechen
+                    </FullButton>
+                </div>
+            ) : (
+                <Button onClick={()=>{
+                    setShowAdd(true)
+                }}>+</Button>
+            )}
+
         </div>
     )
 }
 
 const EventView = () => {
     const [event, setEvent] = useState<Event>()
+    const [userEmail, setUserEmail] = useState<string | void>(ls('userEmail'))
 
     // hooks to control the display of the proposal menu
     const [propose, setPropose] = useState<Boolean>()
@@ -90,7 +164,14 @@ const EventView = () => {
                 <div>
                     <p>{event.authorName} hat dich zu einem Online-Treffen eingeladen.</p>
 
-                    <UserSelection participants={event.participants} selected={ls('userEmail')} />
+                    <UserSelection eventId={event._id}
+                                   participants={event.participants}
+                                   selected={userEmail}
+                                   changeCb={(res : string) => {
+                                       setUserEmail(res)
+                                       loadEvent(eventId, setEvent)
+                                   }}
+                    />
 
                     <hr />
 
@@ -104,10 +185,25 @@ const EventView = () => {
                     <h2>Vorschlag bestätigen oder hinzufügen</h2>
                     <div>
                         {(event && event.participants) ? uniqueTimeslots(event).map((timeslot, i) => {
+                            const confirmed = hasParticipantTimeslot(event.participants, userEmail, timeslot)
                             return (
-                                <FullButton key={i} onClick={()=> {}}
-                                >
-                                    <p>{'' + timeslot}</p>
+                                <FullButton key={i} primary={confirmed} onClick={() => {
+                                    Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail: ls('userEmail')}, (err) => {
+                                        if(err) {
+                                            Swal.fire({
+                                                title: 'Konnte Vorschlag nicht akzeptieren.',
+                                                text: err,
+                                                icon: 'error'
+                                            })
+                                        } else {
+                                            loadEvent(eventId, setEvent)
+                                        }
+                                    })
+                                }}>
+                                    <div>
+                                        <div>{'' + timeslot}</div>
+                                        <div>{confirmed ? "(bestätigt)" : "(unbestätigt)"}</div>
+                                    </div>
                                 </FullButton>
                             )
                         }) : null}
@@ -117,10 +213,11 @@ const EventView = () => {
                                         timeCaption="time"
                                         minDate={new Date()}
                                         dateFormat="MMMM d, yyyy HH:mm"
-                                        placeholderText="Neuen Vorschlag machen"
+                                        placeholderText="Neuen Vorschlag hinzufügen"
                                         showTimeSelect
                                         selected={proposeTimeslot}
-                                        onChange={(date) => {
+                                        customInput={<FullInput/>}
+                                        onChange={(date:Date) => {
                                             setProposeTimeslot(date)
                                             setPropose(true)
                                         }}
@@ -138,12 +235,6 @@ const EventView = () => {
                                             })
                                         } else {
                                             loadEvent(eventId, setEvent)
-                                            Swal.fire({
-                                                icon: 'success',
-                                                title: 'Vorschlag angelegt!',
-                                                timer: 1000,
-                                                showConfirmButton: false
-                                            })
                                         }
                                     })
 

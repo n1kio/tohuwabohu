@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo'
 
 interface Participant {
-    email: string
     name: string
+    email: string
     timeslots: [Date]
 }
 

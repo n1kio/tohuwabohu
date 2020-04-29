@@ -15,10 +15,14 @@ const FullButtonStyle = styled.div`
     border-radius: 5px;
     box-shadow: 1px 1px 1px black;
     cursor: pointer;
+    background-color: ${props => props.primary ? 'green' : 'inherit'};
+    color: ${props => props.primary ? 'white' : 'inherit'};
 `
 
 const FullButton = (props) => {
-    return <FullButtonStyle onChange={props.onChange}>{props.children}{props.value}</FullButtonStyle>
+    return <FullButtonStyle {...props}>
+        {props.children}{props.value}
+    </FullButtonStyle>
 }
 
 const FullInput = styled.input`
