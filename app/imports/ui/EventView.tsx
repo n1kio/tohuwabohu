@@ -191,7 +191,7 @@ const EventView = () => {
                         <div>
                             <h2>Vorschlag bestätigen oder hinzufügen</h2>
                             <div>
-                                {(event && event.participants) ? uniqueTimeslots(event).map((timeslot, i) => {
+                                {(event && event.participants) ? uniqueTimeslots(event).sort((a, b) => a >= b).map((timeslot, i) => {
                                     const confirmed = hasParticipantTimeslot(event.participants, userEmail, timeslot)
                                     return (
                                         <FullButton key={i} primary={confirmed} onClick={() => {
@@ -233,6 +233,13 @@ const EventView = () => {
                                     {propose ? (
                                         <Button onClick={() => {
                                             setPropose(false)
+                                            if(hasParticipantTimeslot(event.participants, userEmail, proposedTimeslot)) {
+                                                Swal.fire({
+                                                    title: 'Vorschlag bereits hinzugefügt.',
+                                                    icon: 'info'
+                                                })
+                                                return
+                                            }
                                             Meteor.call('events.toggleTimeslot', {eventId, timeslot: proposedTimeslot, userEmail}, (err) => {
                                                 setProposeTimeslot(undefined)
                                                 if(err) {
