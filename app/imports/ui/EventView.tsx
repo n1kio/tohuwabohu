@@ -47,7 +47,7 @@ interface UserSelectionProps {
     participants: [Participant]
     selected?: string
     eventId?: string
-    changeCb?: Function
+    changeCb: Function
 }
 
 const UserSelection = (props : UserSelectionProps) => {
@@ -55,7 +55,7 @@ const UserSelection = (props : UserSelectionProps) => {
     const [showAdd, setShowAdd] = useState<Boolean>(false)
     const [newName, setNewName] = useState<string>('')
     const [newEmail, setNewEmail] = useState<string>('')
-    const changeCb = props.changeCb ? props.changeCb : () => {}
+    const changeCb = props.changeCb
 
     return (
         <div>
@@ -113,6 +113,7 @@ const UserSelection = (props : UserSelectionProps) => {
                                 setShowAdd(false)
                                 setNewName('')
                                 setNewEmail('')
+                                changeCb()
                                 Swal.fire({
                                     icon: 'success',
                                     title: `${participant.name} hinzugefügt.`,
@@ -167,8 +168,10 @@ const EventView = () => {
                     <UserSelection eventId={event._id}
                                    participants={event.participants}
                                    selected={userEmail}
-                                   changeCb={(res : string) => {
-                                       setUserEmail(res)
+                                   changeCb={(res : string | undefined) => {
+                                       if(res) {
+                                           setUserEmail(res)
+                                       }
                                        loadEvent(eventId, setEvent)
                                    }}
                     />

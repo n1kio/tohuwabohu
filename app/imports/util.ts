@@ -10,14 +10,14 @@ const hasParticipantTimeslot = (participants:[Participant], userEmail:string, ti
      * @returns A boolean containing the result of the existance check
      */
 
-    const participant:Participant = participants.filter((participant) => {
+    const participant:Participant = participants?.filter((participant) => {
         return participant.email === userEmail
     })[0]
     if(participant) {
-        const result = participant.timeslots.filter((pTimeslot) => {
+        const result = participant.timeslots?.filter((pTimeslot) => {
             return ''+roundTime(pTimeslot) === ''+roundTime(timeslot)
         })
-        return result.length === 1
+        return result?.length === 1
     }
     return false
 }
