@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Meteor } from 'meteor/meteor'
+import { withTracker } from 'meteor/react-meteor-data'
 import { FlowRouter } from 'meteor/kadira:flow-router'
+
 import Swal from 'sweetalert2'
-import { Event, Participant } from '/imports/api/events'
 import ls from 'local-storage'
 import DatePicker from 'react-datepicker'
 
+import { EventsCollection } from '/imports/api/events'
+import { Event, Participant } from '/imports/api/events'
 import { Layout } from '/imports/ui/Layout'
 import { FullButton, Button, Select, Input, FullInput } from '/imports/ui/Primitives'
 import { hasParticipantTimeslot } from '/imports/util'
-
-const loadEvent = (eventId, cb) => {
-    Meteor.call('events.get', eventId, (err : any, res : Event) => {
-        if(err) {
-            Swal.fire({
-                'title': 'Konnte Event nicht laden',
-                'text': err,
-                'icon': 'error'
-            })
-        } else {
-            cb(res)
-        }
-    })
-}
 
 const uniqueTimeslots = (event:Event) => {
     let timestrings = new Set()
@@ -145,8 +134,8 @@ const UserSelection = (props : UserSelectionProps) => {
     )
 }
 
-const EventView = () => {
-    const [event, setEvent] = useState<Event>()
+const EventView = (props) => {
+    const event = props.event
     const [userEmail, setUserEmail] = useState<string | void>(ls('userEmail'))
 
     // hooks to control the display of the proposal menu
@@ -158,7 +147,7 @@ const EventView = () => {
     const eventId = FlowRouter.getParam('eventId')
 
     useEffect(() => {
-        loadEvent(eventId, setEvent)
+        Meteor.subscribe('event', eventId)
     }, [])
 
     return (
@@ -174,7 +163,6 @@ const EventView = () => {
                                        if(res) {
                                            setUserEmail(res)
                                        }
-                                       loadEvent(eventId, setEvent)
                                    }}
                     />
 
@@ -202,8 +190,6 @@ const EventView = () => {
                                                         text: err,
                                                         icon: 'error'
                                                     })
-                                                } else {
-                                                    loadEvent(eventId, setEvent)
                                                 }
                                             })
                                         }}>
@@ -247,8 +233,6 @@ const EventView = () => {
                                                         text: err,
                                                         icon: 'error'
                                                     })
-                                                } else {
-                                                    loadEvent(eventId, setEvent)
                                                 }
                                             })
 
@@ -268,4 +252,11 @@ const EventView = () => {
     )
 }
 
-export default EventView
+export default withTracker(() => {
+    const eventId = FlowRouter.getParam('eventId')
+    const handle = Meteor.subscribe('event', eventId)
+    return {
+        loading: !handle.ready(),
+        event: EventsCollection.findOne({_id: eventId})
+    }
+})(EventView)
