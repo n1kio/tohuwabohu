@@ -8,7 +8,7 @@ import ls from 'local-storage'
 import { EventsCollection } from '/imports/api/events'
 import { Layout } from '/imports/ui/Layout'
 import { TimeslotPropose } from '/imports/ui/Timeslot'
-import { ButtonPrimary } from '/imports/ui/Primitives'
+import { ButtonSuccess, ButtonPrimary } from '/imports/ui/Primitives'
 import UserSelection from '/imports/ui/UserSelection'
 import EventDetails from '/imports/ui/EventDetails'
 import { defaultText } from '/imports/util'
@@ -29,26 +29,28 @@ const EventView = (props) => {
                     <h1>Einladung zu "{defaultText(event.title)}"</h1>
 
                     <p>{event.authorName} hat dich zu einem Online-Treffen eingeladen.</p>
-                    <p>Wähle deinen Namen oder füge einen neuen Namen hinzu um über den Zeitpunkt abzustimmen.</p>
 
-                    <UserSelection eventId={event._id}
-                                   participants={event.participants}
-                                   selected={userEmail}
-                                   changeCb={(res : string | undefined) => {
-                                       if(res) {
-                                           setUserEmail(res)
-                                       }
-                                   }}
-                    />
+                    {!event.final ? (
+                        <div>
+                            <UserSelection eventId={event._id}
+                                           participants={event.participants}
+                                           selected={userEmail}
+                                           changeCb={(res : string | undefined) => {
+                                               if(res) {
+                                                   setUserEmail(res)
+                                               }
+                                           }} />
+                        </div>
+                    ) : null}
 
                     <hr />
 
                     <EventDetails title={defaultText(event.title)}
                                   description={defaultText(event.description)}
                                   space={defaultText(event.space)}
+                                  participants={event.participants}
                                   finalDate={event.finalDate}
-                                  final={event.final}
-                    />
+                                  final={event.final} />
 
                     <hr />
 
@@ -58,8 +60,7 @@ const EventView = (props) => {
                             <p>Du kannst einen der Vorschläge bestätigen oder einen neuen hinzufügen.</p>
                             <TimeslotPropose
                                 event={event}
-                                userEmail={userEmail}
-                            />
+                                userEmail={userEmail} />
                         </div>
                     ) : null}
 

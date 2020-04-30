@@ -1,5 +1,6 @@
 import React from 'react'
 import { formatDateTime } from '/imports/util'
+import { Participant } from '/imports/api/events'
 
 interface EventDetailsProps {
     title:string
@@ -7,15 +8,24 @@ interface EventDetailsProps {
     space:string
     finalDate?:Date
     final?:boolean
+    participants?:[Participant]
 }
 
 const EventDetails = (props:EventDetailsProps) => {
     return (
         <div>
-            <p><strong>Titel</strong>: {props.title}</p>
-            <p><strong>Beschreibung</strong>: {props.description}</p>
-            <p><strong>Raum</strong>: {props.space}</p>
-            {(props.final && props.finalDate) ? <p><strong>Zeit</strong>: {''+formatDateTime(props.finalDate)} Uhr</p> : null}
+            <h2>
+                {props.title}
+            </h2>
+            <p>
+                {(props.final && props.finalDate) ? <span><strong>Zeit</strong>: {''+formatDateTime(props.finalDate)} Uhr</span> : null}
+            </p>
+            <p>
+                <strong>Beschreibung</strong>: {props.description}
+            </p>
+            <p>
+                <strong>Raum</strong>: {props.space}
+            </p>
         </div>
     )
 }

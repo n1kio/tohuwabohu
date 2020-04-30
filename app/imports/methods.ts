@@ -45,25 +45,28 @@ Meteor.methods({
     },
 
     'events.toggleTimeslot': ({eventId, userEmail, timeslot}:{eventId:string, userEmail:string, timeslot:Date}) => {
-        const event = EventsCollection.findOne({_id: eventId})
-        if (!event) {
-            throw new Meteor.Error(500, 'Event not found.')
+        // server only to prevent client prediction
+        if(Meteor.isServer) {
+            const event = EventsCollection.findOne({_id: eventId})
+            if (!event) {
+                throw new Meteor.Error(500, 'Event not found.')
+            }
+
+            const participantResult = event.participants?.filter(participant => participant.email == userEmail)
+            const participant = participantResult?.length === 1 ? participantResult[0] : null
+            if (!participant) {
+                throw new Meteor.Error(500, 'Participant not found.')
+            }
+
+            // add or pull timeslot from participant based on current inclusion
+            const operation = hasParticipantTimeslot(event.participants, userEmail, timeslot) ? "$pull" : "$addToSet"
+            EventsCollection.update({
+                _id: eventId,
+                'participants.email': participant.email
+            }, {[`${operation}`]: {'participants.$.timeslots': roundTime(timeslot)}})
+
+            return true
         }
-
-        const participantResult = event.participants?.filter(participant => participant.email == userEmail)
-        const participant = participantResult?.length === 1 ? participantResult[0] : null
-        if (!participant) {
-            throw new Meteor.Error(500, 'Participant not found.')
-        }
-
-        // add or pull timeslot from participant based on current inclusion
-        const operation = hasParticipantTimeslot(event.participants, userEmail, timeslot) ? "$pull" : "$addToSet"
-        EventsCollection.update({
-            _id: eventId,
-            'participants.email': participant.email
-        }, {[`${operation}`]: {'participants.$.timeslots': roundTime(timeslot)}})
-
-        return true
     },
 
     'events.addParticipant': ({eventId, participant}:{eventId:string, participant:Participant}) => {
@@ -83,7 +86,7 @@ Meteor.methods({
 
         const alreadyExists = EventsCollection.findOne({_id: eventId, 'participants.email': participant.email?.toLowerCase()})
         if(alreadyExists) {
-            throw new Meteor.Error(500, 'Participant already exists.')
+            throw new Meteor.Error(500, 'Teilnehmer existiert bereits im Event.')
         }
 
         EventsCollection.update({_id: eventId}, {$addToSet: {'participants': participant}})
