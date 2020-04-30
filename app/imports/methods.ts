@@ -90,7 +90,6 @@ Meteor.methods({
         }})
 
         const fromMail = Meteor.settings.public.from_email
-        return
         event.participants?.forEach((participant) => {
             if(isEmailValid(participant.email)) {
                 sendMail({
