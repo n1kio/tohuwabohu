@@ -1,13 +1,27 @@
-![Tohuwabohu Header](/app/public/header-example.jpg)
-**Tohuwabohu** - Der Organisator für Online Gruppentreffen.
+![Tohuwabohu Header](/app/public/header.jpg)
+# Tohuwabohu
+Der Organisator für Online Gruppentreffen.
 
 DEMO: https://tohuwabohuapp.com/
 
 ## Installation
+- Projekt klonen
 - in `app`-Verzeichnis wechseln: `cd app`
 - Docker Container bauen und mit Tag "tohuwabohu" versehen: `docker build -t tohuwabohu .`
 - Docker Container ausführen: `docker run -it -p 3000:3000 -p 3001:3001 tohuwabohu`
 - Die App kann nun im Browser unter http://localhost:3000 aufgerufen werden
+
+## Screenshot
+![Tohuwabohu App](/app/public/screen.jpg)
+
+## Verwendete Technologien
+- TypeScript (Fullstack)
+- React + StyledComponents
+- Node.js
+- Meteor.js
+- Docker
+- SendGrid
+- Außerdem viel Kaffee
 
 ## Hintergrund
 Ein Treffen mit vielen Personen zu organisieren kann anstrengend sein. 
@@ -17,7 +31,7 @@ Häufig ist es nicht nur eine Herausforderung einen passenden Tag für ein Treff
 Die Corona-Pandemie hat außerdem dazu geführt, dass typische physische Treffpunkte durch virtuelle Alternativen ersetzt werden müssen. WhatsApp-Gruppen, Doodle-Listen oder E-Mail-Verteiler können dieses Problem zwar lösen, aber es ist umständlich und sind keine speziellen Lösungen für das eigentliche Problem: Einfach und intuitiv eine Zeit und einen Ort für ein Treffen mit Freunden zu finden.
 
 ## Lösung
-Mithilfe von Tohuwabohu kann ein Gruppentreffen nun leicht und verständlich umgesetzt werden. 
+Mithilfe von Tohuwabohu kann ein Gruppentreffen nun leicht und verständlich umgesetzt werden.
 
 ### Ablauf
 1.	Eine Person im Freundeskreis übernimmt die Rolle des Organisators und erstellt ein Event, zudem er seine Freunde per E-Mail oder mithilfe eines Links einladen kann. Der Organisator schlägt maximal 4 Termine mit Datum und Uhrzeit vor. Außerdem gibt er den Ort des Treffens bekannt. Er hat die Möglichkeit das Event zu beschreiben und/oder eine kurze Nachricht an seine Freunde zu erfassen. Sobald er das Event erstellt hat bekommt er eine E-Mail mit einem Link zum Event. Mithilfe des Links kann er das Event nochmal bearbeiten oder den Link mit seinen Freunden teilen.
