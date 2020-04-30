@@ -1,7 +1,6 @@
 ![Tohuwabohu Header](/app/public/header-example.jpg)
+**Tohuwabohu** - Der Organisator für Online Gruppentreffen.
 
-# Tohuwabohu
-Der Organisator für Online Gruppentreffen. 
 DEMO: https://tohuwabohuapp.com/
 
 ## Installation
