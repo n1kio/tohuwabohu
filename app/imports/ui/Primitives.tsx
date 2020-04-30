@@ -19,8 +19,8 @@ const Button = styled(Base)`
 `
 
 const ButtonDisabled = styled(Base)`
-    background-color: ${colors.medium};
-    color: ${colors.light};
+    background-color: none;
+    color: ${colors.medium};
     cursor: default;
     font-weight: bold;
 `

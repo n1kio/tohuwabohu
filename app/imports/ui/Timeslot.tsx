@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import DatePicker from 'react-datepicker'
-import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Event, Participant } from '/imports/api/events'
-import { Base, Button, FullInput } from '/imports/ui/Primitives'
+import { Base, Button, Input } from '/imports/ui/Primitives'
 import colors from '/imports/ui/Colors'
 import { hasParticipantTimeslot, uniqueTimeslots, formatDateTime, countParticipants } from '/imports/util'
 
@@ -31,7 +30,6 @@ const TimeslotStyle = styled(Base)`
 
 const Timeslot = (props:TimeslotProps) => {
     if(!props.participants || !props.userEmail || !props.timeslot) {
-        console.log('no props')
         return null
     }
     const selected = hasParticipantTimeslot(props.participants, props.userEmail, props.timeslot)
@@ -74,10 +72,10 @@ const AvailableTimeslots = (props:AvailableTimeslotsProps) => {
     const plain = props.plain
 
     if(event && userEmail) {
-        const eventId = event._id
+        const timeslots = uniqueTimeslots(event)
         return (
             <div>
-                {uniqueTimeslots(event).sort((a, b) => {return a - b}).map((timeslot, i) => {
+                {timeslots.sort((a, b) => {return a - b}).map((timeslot:Date, i:number) => {
                     return (
                         <Timeslot key={i}
                                   onClick={() => {onClickCb(timeslot)}}
@@ -127,17 +125,17 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
                                         })
                                     }} />
             ) : null}
-            <div>
+            <div className="spread-horizontal">
                 <DatePicker timeFormat="HH:mm"
                             timeIntervals={15}
                             timeCaption="time"
                             minDate={new Date()}
                             dateFormat="d. MMMM yyyy, HH:mm"
-                            placeholderText="Neuen Vorschlag hinzufügen"
+                            placeholderText={uniqueTimeslots(event).length > 0 ? "Neuen Vorschlag hinzufügen" : "Ersten Vorschlag hinzufügen"}
                             showTimeSelect
                             selected={proposedTimeslot}
                             withPortal
-                            customInput={<FullInput/>}
+                            customInput={<Input/>}
                             onChange={(date:Date) => {
                                 setProposeTimeslot(date)
                                 setPropose(true)
@@ -164,7 +162,7 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
                             }
                         })
 
-                    }}>Vorschlag senden</Button>
+                    }}>speichern</Button>
                 ) : null}
             </div>
         </div>

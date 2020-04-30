@@ -30,9 +30,17 @@ const Header = () => {
     </HeaderStyle>
 }
 
-const FooterStyle = styled.div``
+const FooterStyle = styled.div`
+    padding: 5px 0;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    background-color: ${colors.medium}
+`
 const Footer = () => {
     return <FooterStyle>
+        Made with ♥ in Darmstadt
     </FooterStyle>
 }
 
@@ -40,16 +48,22 @@ const Container = styled.div`
     max-width: 1000px;
     margin: auto;
     padding: 0 15px;
+    padding-bottom: 2.5rem;
+`
+
+const PageContainer = styled.div`
+    position: relative;
+    min-height: 100vh
 `
 
 const Layout = (props : LayoutProps) => (
-    <div>
+    <PageContainer>
         <Header/>
         <Container>
             {props.children}
         </Container>
         <Footer/>
-    </div>
+    </PageContainer>
 )
 
 export {

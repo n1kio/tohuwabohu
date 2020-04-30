@@ -28,7 +28,10 @@ const EventView = (props) => {
                 <div>
                     <h1>Einladung zu "{defaultText(event.title)}"</h1>
 
-                    <p>{event.authorName} hat dich zu einem Online-Treffen eingeladen.</p>
+                    <p>
+                        {event.authorName} hat dich zu einem Online-Treffen eingeladen.
+                        Wähle einen existierenden Teilnehmer oder füge einen neuen hinzu.
+                    </p>
 
                     {!event.final ? (
                         <div>
@@ -43,8 +46,6 @@ const EventView = (props) => {
                         </div>
                     ) : null}
 
-                    <hr />
-
                     <EventDetails title={defaultText(event.title)}
                                   description={defaultText(event.description)}
                                   space={defaultText(event.space)}
@@ -57,7 +58,7 @@ const EventView = (props) => {
                     {(userEmail && !event.final) ? (
                         <div>
                             <h2>Wann kannst du?</h2>
-                            <p>Du kannst einen der Vorschläge bestätigen oder einen neuen hinzufügen.</p>
+                            <p>Du kannst einen vorhandenen Vorschläg bestätigen oder einen neuen hinzufügen.</p>
                             <TimeslotPropose
                                 event={event}
                                 userEmail={userEmail} />

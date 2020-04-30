@@ -1,9 +1,8 @@
 export default {
-    green: '#12B347',
     light: 'white',
-    medium: 'lightgrey',
     dark: 'black',
-    primary: 'lightblue',
-    success: 'lightgreen',
-    accent: 'coral'
+    success: '#98A845',
+    primary: '#8956A8',
+    medium: '#D096F4',
+    disabled: '#A8A177'
 }

@@ -15,7 +15,7 @@ interface UserSelectionProps {
 }
 
 const UserSelectionStyle = styled.div`
-    background-color: ${colors.accent};
+    background-color: ${colors.primary};
     padding: 5px 15px;
     border-radius: 5px;
     color: ${colors.light};
@@ -131,7 +131,12 @@ const UserSelection = (props : UserSelectionProps) => {
                                 speichern
                             </ButtonPrimary>
 
-                        ) : <ButtonDisabled>speichern</ButtonDisabled>}
+                        ) : <ButtonDisabled onClick={() => {
+                            Swal.fire({
+                                title: 'Bitte Namen und E-Mail Adresse angeben.',
+                                icon: 'info'
+                            })
+                        }}>speichern</ButtonDisabled>}
                     </div>
                 </div>
             ) : null}

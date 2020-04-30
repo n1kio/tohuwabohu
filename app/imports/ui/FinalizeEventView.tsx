@@ -60,6 +60,9 @@ const FinalizeEventView = (props) => {
                                   space={defaultText(event.space)}
                     />
                     <h2>Wähle einen finalen Zeitpunkt</h2>
+                    <p>
+                        Um den Zeitpunkt des Events zu finalisieren kannst du hier einen Zeitpunkt auswählen an dem das virtuelle Treffen stattfinden soll.
+                    </p>
 
                     <AvailableTimeslots plain={true}
                                         event={event}
