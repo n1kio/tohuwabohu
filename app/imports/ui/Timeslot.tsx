@@ -160,37 +160,41 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
                 ) : null}
             </div>
 
-            <hr/>
+            {userEmail === event.authorEmail ? (
+                <div>
+                    <hr/>
 
-            <ButtonPrimary onClick={() => {
-                Swal.fire({
-                    title: 'Event finalisieren und Teilnehmer benachrichtigen',
-                    text: 'Diese Aktion kann nicht rückgängig gemacht werden!',
-                    showCancelButton: true,
-                    cancelButtonText: 'Abbrechen',
-                    confirmButtonText: 'Finalisieren'
-                }).then((res) => {
-                    if (res.value) {
-                        Meteor.call('events.finalize', eventId, (err) => {
-                            if(err) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: `Event konnte nicht finalisiert werden.`,
-                                    text: err
-                                })
-                            } else {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: `Event wurde finalisiert`,
-                                    timer: 1000,
-                                    showConfirmButton: false
+                    <ButtonPrimary onClick={() => {
+                        Swal.fire({
+                            title: 'Event finalisieren und Teilnehmer benachrichtigen',
+                            text: 'Diese Aktion kann nicht rückgängig gemacht werden!',
+                            showCancelButton: true,
+                            cancelButtonText: 'Abbrechen',
+                            confirmButtonText: 'Finalisieren'
+                        }).then((res) => {
+                            if (res.value) {
+                                Meteor.call('events.finalize', eventId, (err) => {
+                                    if(err) {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: `Event konnte nicht finalisiert werden.`,
+                                            text: err
+                                        })
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: `Event wurde finalisiert`,
+                                            timer: 1000,
+                                            showConfirmButton: false
+                                        })
+                                    }
                                 })
                             }
-                        })
-                    }
-            })}}>
-                Zeitpunkt festlegen und finalisieren
-            </ButtonPrimary>
+                    })}}>
+                        Zeitpunkt festlegen und finalisieren
+                    </ButtonPrimary>
+                </div>
+            ) : null}
         </div>
 
     )
