@@ -20,9 +20,9 @@ module.exports = {
         },
 
         env: {
-            ROOT_URL: 'http://3.126.207.88/',
+            ROOT_URL: 'https://tohuwabohuapp.com/',
             MONGO_URL: 'mongodb://localhost/meteor',
-            PORT: 80
+            PORT: 3000
         },
 
         docker: {
