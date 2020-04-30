@@ -115,7 +115,7 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
             {(event && event.participants) ? (
                 <AvailableTimeslots event={event}
                                     userEmail={userEmail}
-                                    onClickCb={() => {
+                                    onClickCb={(timeslot:Date) => {
                                         Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
                                             if(err) {
                                                 Swal.fire({
