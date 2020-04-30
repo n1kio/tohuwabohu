@@ -10,11 +10,12 @@ const HeaderStyle = styled.div`
     @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
     font-family: 'Fredoka One', sans-serif;
     font-size: 1.5rem;
-    padding: 10px 0;
-    margin: 0;
+    padding: 10px;
+    margin-bottom: 20px;
     background-image: url('/header.jpg');
     background-size: cover;
     background-color: ${colors.medium};
+    box-sizing: border-box;
     color: ${colors.light};
     text-align: center;
     a {
