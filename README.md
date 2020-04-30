@@ -1,6 +1,8 @@
+![Tohuwabohu Header](/app/public/header-example.jpg)
+
 # Tohuwabohu
-Der Organisator für Gruppentreffen. 
-DEMO: http://3.126.207.88:3000/
+Der Organisator für Online Gruppentreffen. 
+DEMO: https://tohuwabohuapp.com/
 
 ## Installation
 - in `app`-Verzeichnis wechseln: `cd app`
