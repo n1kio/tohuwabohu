@@ -16,7 +16,7 @@ Häufig ist es nicht nur eine Herausforderung einen passenden Tag für ein Treff
 Die Corona-Pandemie hat außerdem dazu geführt, dass typische physische Treffpunkte durch virtuelle Alternativen ersetzt werden müssen. WhatsApp-Gruppen, Doodle-Listen oder E-Mail-Verteiler können dieses Problem zwar lösen, aber es ist umständlich und sind keine speziellen Lösungen für das eigentliche Problem: Einfach und intuitiv eine Zeit und einen Ort für ein Treffen mit Freunden zu finden.
 
 ## Lösung
-Mithilfe von XX kann ein Gruppentreffen nun leicht und verständlich umgesetzt werden. 
+Mithilfe von Tohuwabohu kann ein Gruppentreffen nun leicht und verständlich umgesetzt werden. 
 
 ### Ablauf
 1.	Eine Person im Freundeskreis übernimmt die Rolle des Organisators und erstellt ein Event, zudem er seine Freunde per E-Mail oder mithilfe eines Links einladen kann. Der Organisator schlägt maximal 4 Termine mit Datum und Uhrzeit vor. Außerdem gibt er den Ort des Treffens bekannt. Er hat die Möglichkeit das Event zu beschreiben und/oder eine kurze Nachricht an seine Freunde zu erfassen. Sobald er das Event erstellt hat bekommt er eine E-Mail mit einem Link zum Event. Mithilfe des Links kann er das Event nochmal bearbeiten oder den Link mit seinen Freunden teilen.
