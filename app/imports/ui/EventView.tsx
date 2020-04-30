@@ -8,15 +8,10 @@ import ls from 'local-storage'
 import { EventsCollection } from '/imports/api/events'
 import { Layout } from '/imports/ui/Layout'
 import { TimeslotPropose } from '/imports/ui/Timeslot'
+import { ButtonPrimary } from '/imports/ui/Primitives'
 import UserSelection from '/imports/ui/UserSelection'
-
-
-const defaultText = (text : string | undefined) => {
-    if(text === '') {
-        return 'keine Angabe'
-    }
-    return text
-}
+import EventDetails from '/imports/ui/EventDetails'
+import { defaultText } from '/imports/util'
 
 const EventView = (props) => {
     const event = props.event
@@ -48,11 +43,12 @@ const EventView = (props) => {
 
                     <hr />
 
-                    <p><strong>Titel</strong>: {defaultText(event.title)}</p>
-                    <p><strong>Beschreibung</strong>: {defaultText(event.description)}</p>
-                    <p><strong>Raum</strong>: {defaultText(event.space)}</p>
-
-                    {event.final ? <p>Zeit: {event.finalDate}</p> : null}
+                    <EventDetails title={defaultText(event.title)}
+                                  description={defaultText(event.description)}
+                                  space={defaultText(event.space)}
+                                  finalDate={event.finalDate}
+                                  final={event.final}
+                    />
 
                     <hr />
 
@@ -64,6 +60,18 @@ const EventView = (props) => {
                                 event={event}
                                 userEmail={userEmail}
                             />
+                        </div>
+                    ) : null}
+
+                    {(userEmail === event.authorEmail) && !event.final ? (
+                        <div>
+                            <hr/>
+
+                            <ButtonPrimary onClick={() => {
+                                FlowRouter.go('finalize-event', {eventId: eventId})
+                            }}>
+                                Zeitpunkt festlegen
+                            </ButtonPrimary>
                         </div>
                     ) : null}
                 </div>

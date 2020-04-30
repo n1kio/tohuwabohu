@@ -90,7 +90,7 @@ const NewEventView = () => {
                                 icon: 'error'
                             })
                         } else {
-                            FlowRouter.go('event', {eventId: res})
+                            FlowRouter.go('view-event', {eventId: res})
                             Swal.fire({
                                 icon: 'success',
                                 title: 'Event erfolgreich angelegt!',

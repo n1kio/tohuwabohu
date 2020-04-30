@@ -6,6 +6,7 @@ import App from '/imports/ui/App'
 import Dashboard from '/imports/ui/Dashboard'
 import EventView from '/imports/ui/EventView'
 import NewEventView from '/imports/ui/NewEventView'
+import FinalizeEventView from '/imports/ui/FinalizeEventView'
 
 FlowRouter.route('/', {
     name: 'root',
@@ -26,10 +27,19 @@ FlowRouter.route('/new', {
 })
 
 FlowRouter.route('/e/:eventId', {
-    name: 'event',
+    name: 'view-event',
     action() {
         mount(App, {
             content: <EventView/>
+        })
+    }
+})
+
+FlowRouter.route('/e/:eventId/finalize', {
+    name: 'finalize-event',
+    action() {
+        mount(App, {
+            content: <FinalizeEventView/>
         })
     }
 })

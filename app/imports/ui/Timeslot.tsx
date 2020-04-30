@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import Swal from 'sweetalert2'
 import DatePicker from 'react-datepicker'
+import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Event, Participant } from '/imports/api/events'
-import { Base, Button, ButtonPrimary, FullInput } from '/imports/ui/Primitives'
+import { Base, Button, FullInput } from '/imports/ui/Primitives'
 import colors from '/imports/ui/Colors'
 import { hasParticipantTimeslot, uniqueTimeslots, formatDateTime, countParticipants } from '/imports/util'
 
@@ -17,8 +18,8 @@ interface TimeslotProps {
 }
 
 const TimeslotStyle = styled(Base)`
-    background-color: ${props => props.selected ? colors.success : 'inherit'};
-    color: ${props => props.selected ? colors.light : 'inherit'};
+    background-color: ${props => (props.selected && !props.plain) ? colors.success : 'inherit'};
+    color: ${props => (props.selected && !props.plain) ? colors.light : 'inherit'};
     display: block;
     text-align: left;
     font-weight: ${props => props.selected ? 'bold' : 'inherit'};
@@ -26,13 +27,6 @@ const TimeslotStyle = styled(Base)`
     .timestring {
         margin-bottom: 10px;
     }
-
-    .spread-horizontal {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
 `
 
 const Timeslot = (props:TimeslotProps) => {
@@ -53,9 +47,13 @@ const Timeslot = (props:TimeslotProps) => {
                         {countParticipants(props.participants, props.timeslot)} Teilnehmer
                     </div>
                 </div>
-                <div className="confirm-state">
-                    {selected ? 'bestätigt' : 'unbestätigt'}
-                </div>
+                {!props.plain ? (
+                    <div className="confirm-state">
+                        {selected ? 'bestätigt' : 'unbestätigt'}
+                    </div>
+                ) : (
+                    "finalisieren und E-Mails versenden"
+                )}
             </div>
             {props.children}
         </TimeslotStyle>
@@ -65,11 +63,16 @@ const Timeslot = (props:TimeslotProps) => {
 interface AvailableTimeslotsProps {
     event:Event
     userEmail:string
+    onClickCb:Function
+    plain?:boolean
 }
 
 const AvailableTimeslots = (props:AvailableTimeslotsProps) => {
     const event = props.event
     const userEmail = props.userEmail
+    const onClickCb = props.onClickCb
+    const plain = props.plain
+
     if(event && userEmail) {
         const eventId = event._id
         return (
@@ -77,19 +80,11 @@ const AvailableTimeslots = (props:AvailableTimeslotsProps) => {
                 {uniqueTimeslots(event).sort((a, b) => {return a - b}).map((timeslot, i) => {
                     return (
                         <Timeslot key={i}
-                                  onClick={() => {
-                                      Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
-                                          if(err) {
-                                              Swal.fire({
-                                                  title: 'Konnte Vorschlag nicht akzeptieren.',
-                                                  text: err,
-                                                  icon: 'error'
-                                              })
-                                          }
-                                  })}}
+                                  onClick={() => {onClickCb(timeslot)}}
                                   participants={event.participants}
                                   userEmail={userEmail}
                                   timeslot={timeslot}
+                                  plain={plain}
                         />
                     )
                 })}
@@ -118,7 +113,19 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
     return (
         <div>
             {(event && event.participants) ? (
-                <AvailableTimeslots event={event} userEmail={userEmail} />
+                <AvailableTimeslots event={event}
+                                    userEmail={userEmail}
+                                    onClickCb={() => {
+                                        Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
+                                            if(err) {
+                                                Swal.fire({
+                                                    title: 'Konnte Vorschlag nicht akzeptieren.',
+                                                    text: err,
+                                                    icon: 'error'
+                                                })
+                                            }
+                                        })
+                                    }} />
             ) : null}
             <div>
                 <DatePicker timeFormat="HH:mm"
@@ -159,45 +166,8 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
                     }}>Vorschlag senden</Button>
                 ) : null}
             </div>
-
-            {userEmail === event.authorEmail ? (
-                <div>
-                    <hr/>
-
-                    <ButtonPrimary onClick={() => {
-                        Swal.fire({
-                            title: 'Event finalisieren und Teilnehmer benachrichtigen',
-                            text: 'Diese Aktion kann nicht rückgängig gemacht werden!',
-                            showCancelButton: true,
-                            cancelButtonText: 'Abbrechen',
-                            confirmButtonText: 'Finalisieren'
-                        }).then((res) => {
-                            if (res.value) {
-                                Meteor.call('events.finalize', eventId, (err) => {
-                                    if(err) {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: `Event konnte nicht finalisiert werden.`,
-                                            text: err
-                                        })
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: `Event wurde finalisiert`,
-                                            timer: 1000,
-                                            showConfirmButton: false
-                                        })
-                                    }
-                                })
-                            }
-                    })}}>
-                        Zeitpunkt festlegen und finalisieren
-                    </ButtonPrimary>
-                </div>
-            ) : null}
         </div>
-
     )
 }
 
-export { Timeslot, TimeslotPropose }
+export { Timeslot, TimeslotPropose, AvailableTimeslots }

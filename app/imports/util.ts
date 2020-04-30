@@ -72,6 +72,13 @@ const countParticipants = (participants:[Participant], timeslot:Date) => {
     return count
 }
 
+const defaultText = (text : string | undefined) => {
+    if(text === '') {
+        return 'keine Angabe'
+    }
+    return text
+}
+
 export {
     hasParticipantTimeslot,
     roundTime,
@@ -79,5 +86,6 @@ export {
     uniqueTimeslots,
     isEmailValid,
     formatDateTime,
-    countParticipants
+    countParticipants,
+    defaultText
 }

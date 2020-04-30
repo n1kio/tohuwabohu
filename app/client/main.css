@@ -11,3 +11,9 @@ body {
 hr {
     margin: 20px 0;
 }
+
+.spread-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
