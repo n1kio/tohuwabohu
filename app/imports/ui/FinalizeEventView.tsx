@@ -14,7 +14,7 @@ import { AvailableTimeslots } from '/imports/ui/Timeslot'
 const finalize = (eventId:string, finalDate:Date) => {
     Swal.fire({
         title: 'Möchtest du das Event finalisieren?',
-        text: 'Diese Aktion kann nicht rückgängig gemacht werden!',
+        text: 'Nach dem Finalisieren wird der Zeitpunk für dieses Event festgesetzt und alle Teilnehmer erhalten eine E-Mail mit den Daten. Diese Aktion kann nicht rückgängig gemacht werden!',
         showCancelButton: true,
         cancelButtonText: 'Abbrechen',
         confirmButtonText: 'Ja, weiter!'
