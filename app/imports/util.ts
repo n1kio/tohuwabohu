@@ -39,8 +39,32 @@ const eventUrl = (eventId:string):string => {
     return `${rootUrl}e/${eventId}`
 }
 
+const uniqueTimeslots = (event:Event) => {
+    let timestrings = new Set()
+    const participants = event.participants || []
+    participants.forEach((participant) => {
+        participant.timeslots?.forEach((timeslot) => {
+            timestrings.add('' + timeslot)
+        })
+    })
+    const uniqueSlots = Array.from(timestrings).map((timestring) => new Date(timestring))
+    return uniqueSlots
+}
+
+const isEmailValid = (email:string):boolean => {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(String(email).toLowerCase())
+}
+
+const formatDateTime = (date:Date):string => {
+    return date.toLocaleString('de-DE')
+}
+
 export {
     hasParticipantTimeslot,
     roundTime,
-    eventUrl
+    eventUrl,
+    uniqueTimeslots,
+    isEmailValid,
+    formatDateTime
 }

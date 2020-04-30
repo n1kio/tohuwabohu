@@ -1,5 +1,5 @@
 {
-  "name": "freizeit-planer",
+  "name": "tohuwabohu",
   "private": true,
   "scripts": {
     "start": "meteor run",

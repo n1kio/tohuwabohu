@@ -16,6 +16,8 @@ interface Event {
     description?: string
     participants?: [Participant]
     createdAt?: Date
+    final?: boolean
+    finalDate?: Date
 }
 
 const EventsCollection = new Mongo.Collection<Event>('events')

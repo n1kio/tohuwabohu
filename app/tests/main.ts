@@ -1,10 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import assert from 'assert';
 
-describe('freizeit-planer', function () {
+describe('tohuwabohu', function () {
   it('package.json has correct name', async function () {
     const { name } = await import('../package.json');
-    assert.strictEqual(name, 'freizeit-planer');
+    assert.strictEqual(name, 'tohuwabohu');
   });
 
   if (Meteor.isClient) {
