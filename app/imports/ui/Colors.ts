@@ -5,4 +5,5 @@ export default {
     dark: 'black',
     primary: 'lightblue',
     success: 'lightgreen',
+    accent: 'coral'
 }
