@@ -17,11 +17,15 @@ const HeaderStyle = styled.div`
     background-color: ${colors.medium};
     color: ${colors.light};
     text-align: center;
+    a {
+        color: ${colors.light};
+        text-decoration: none;
+    }
 `
 
 const Header = () => {
     return <HeaderStyle>
-        TOHUWABOHU
+        <a href="/">TOHUWABOHU</a>
     </HeaderStyle>
 }
 
