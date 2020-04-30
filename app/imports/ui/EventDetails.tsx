@@ -18,7 +18,7 @@ const EventDetails = (props:EventDetailsProps) => {
                 {props.title}
             </h2>
             <p>
-                {(props.final && props.finalDate) ? <span><strong>Zeit</strong>: {''+formatDateTime(props.finalDate)} Uhr</span> : null}
+                {(props.final && props.finalDate) ? <span><strong>Zeit</strong>: {''+formatDateTime(props.finalDate)}</span> : null}
             </p>
             <p>
                 <strong>Beschreibung</strong>: {props.description}

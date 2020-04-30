@@ -57,7 +57,7 @@ const isEmailValid = (email:string):boolean => {
 }
 
 const formatDateTime = (date:Date):string => {
-    return date.toLocaleString('de-DE')
+    return date.toLocaleString('de-DE') + ' Uhr'
 }
 
 const countParticipants = (participants:[Participant], timeslot:Date) => {

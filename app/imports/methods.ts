@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 
 import { EventsCollection, Event, Participant } from '/imports/api/events'
-import { hasParticipantTimeslot, roundTime, eventUrl, isEmailValid } from '/imports/util'
+import { hasParticipantTimeslot, roundTime, eventUrl, isEmailValid, formatDateTime } from '/imports/util'
 
 import { sendMail } from '/imports/notify'
 
@@ -96,8 +96,8 @@ Meteor.methods({
                     to: participant.email,
                     from: fromMail ? fromMail : event.authorEmail,
                     subject: `${event.authorName} hat das Event "${event.title}" finalisiert!`,
-                    text: `${event.title} findet zur folgenden Zeit statt: ${event.finalDate}. Treffpunkt ist: ${event.space}. Link zum Event: ${eventUrl(eventId)}`,
-                    html: `${event.title} findet zur folgenden Zeit statt: ${event.finalDate}. <br>Treffpunkt ist: ${event.space}. <br><br>Link zum Event: ${eventUrl(eventId)}`,
+                    text: `${event.title} findet zur folgenden Zeit statt: ${formatDateTime(event.finalDate)}. Treffpunkt ist: ${event.space}. Link zum Event: ${eventUrl(eventId)}`,
+                    html: `${event.title} findet zur folgenden Zeit statt: ${formatDateTime(event.finalDate)}. <br>Treffpunkt ist: ${event.space}. <br><br>Link zum Event: ${eventUrl(eventId)}`,
                 })
             } else {
                 console.warn('Invalid email', participant.email)
