@@ -2,19 +2,19 @@ import sgMail from '@sendgrid/mail'
 
 const sendMail = (msg:{to?:string, from:string, subject:string, text:string, html?:string, bcc?:[string]}) => {
     if(Meteor.isServer) {
-        const apiKey = Meteor.settings.private.SENDGRID_API_KEY
-        sgMail.setApiKey(apiKey)
+        if(Meteor.settings.private && Meteor.settings.private.SENDGRID_API_KEY) {
+            const apiKey = Meteor.settings.private.SENDGRID_API_KEY
+            sgMail.setApiKey(apiKey)
 
-        if ((!msg.to && !msg.bcc) || !msg.from || !msg.subject || !msg.text) {
-            console.error('Missing value for sending email. Skipping sendMail.', msg)
-            return false
-        }
-        if (apiKey) {
+            if ((!msg.to && !msg.bcc) || !msg.from || !msg.subject || !msg.text) {
+                console.error('Missing value for sending email. Skipping sendMail.', msg)
+                return false
+            }
             sgMail.send(msg)
+            return true
         } else {
-            console.log('Provide an `SENDGRID_API_KEY` in settings.json to send emails.')
+            console.warn('Provide an `SENDGRID_API_KEY` in settings.json to send emails.')
         }
-        return true
     }
 }
 
