@@ -6,10 +6,6 @@ import { ButtonPrimary } from '/imports/ui/Primitives'
 
 const Dashboard = () => (
     <Layout>
-        <div className="spaced">
-            <ButtonPrimary onClick={() => {FlowRouter.go('new-event')}}>Direkt loslegen</ButtonPrimary>
-        </div>
-        <hr/>
         <h1>Einfach Online Freizeit organisieren!</h1>
         <p>
             Ein Treffen mit vielen Personen zu organisieren kann anstrengend sein.

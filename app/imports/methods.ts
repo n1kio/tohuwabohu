@@ -13,21 +13,6 @@ Meteor.methods({
         if (!event){
             throw new Meteor.Error(500, 'No event given.')
         }
-        if (event.participants.length > 1){
-            throw new Meteor.Error(500, 'There can only be a single event author.')
-        }
-        event.participants.forEach((participant, i) => {
-            if(participant.timeslots.length > maximumTimeslots) {
-                throw new Meteor.Error(500, 'Only 4 timeslots allowed per person.')
-            }
-
-            // round all timeslots before inserting
-            const roundedTimeslots = participant.timeslots.map((timeslot) => {
-                return roundTime(timeslot)
-            })
-            event.participants[i].timeslots = roundedTimeslots
-
-        })
         const eventId = EventsCollection.insert(event)
         const fromMail = Meteor.settings.public.from_email
         sendMail({

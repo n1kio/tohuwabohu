@@ -123,7 +123,7 @@ const UserSelection = (props : UserSelectionProps) => {
                                             icon: 'success',
                                             title: `${participant.name} hinzugefügt.`,
                                             timer: 1000,
-                                            showConfirmFullButton: false
+                                            showConfirmButton: false
                                         })
                                     }
                                 })

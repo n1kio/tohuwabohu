@@ -67,12 +67,14 @@ const EventView = (props) => {
                     {(userEmail === event.authorEmail) && !event.final ? (
                         <div>
                             <hr/>
-
-                            <ButtonPrimary onClick={() => {
-                                FlowRouter.go('finalize-event', {eventId: eventId})
-                            }}>
-                                Zeitpunkt festlegen
-                            </ButtonPrimary>
+                            <div className="spread-horizontal">
+                                <div></div>
+                                <ButtonPrimary onClick={() => {
+                                    FlowRouter.go('finalize-event', {eventId: eventId})
+                                }}>
+                                    Zeitpunkt festmachen
+                                </ButtonPrimary>
+                            </div>
                         </div>
                     ) : null}
                 </div>
