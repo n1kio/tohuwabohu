@@ -4,4 +4,5 @@ export default {
     medium: 'lightgrey',
     dark: 'black',
     primary: 'lightblue',
+    success: 'lightgreen',
 }

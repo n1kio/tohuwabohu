@@ -20,7 +20,7 @@ const Select = styled.select`
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: ${colors.light};
-    border: 1px solid;
+    border: 1px solid ${colors.medium};
     border-radius: 5px;
     min-height: 50px;
     font-size: 1rem;

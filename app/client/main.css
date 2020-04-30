@@ -7,3 +7,7 @@ body {
     margin: 0;
     font-family: sans-serif;
 }
+
+hr {
+    margin: 20px 0;
+}

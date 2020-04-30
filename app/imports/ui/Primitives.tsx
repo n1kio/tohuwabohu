@@ -2,37 +2,33 @@ import React from 'react'
 import styled from 'styled-components'
 import colors from '/imports/ui/Colors'
 
-const Button = styled.button`
-    margin-right: 10px;
+const Base = styled.div`
     padding: 10px;
+    text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: 1px solid;
+    display: inline;
     border-radius: 5px;
-    background-color: ${colors.light};
-    min-height: 50px;
+    border: 1px solid ${colors.medium};
     font-size: 1rem;
-    /* box-shadow: 1px 1px 1px ${colors.dark}; */
+    cursor: pointer;
 `
 
-const FullButtonStyle = styled(Button)`
-    background-color: ${props => props.primary ? colors.primary : 'inherit'};
-    color: ${props => props.primary ? colors.light : 'inherit'};
-    display: block;
-    width: 100%;
-`
+const Button = styled(Base)``
 
-const FullButton = (props) => {
-    return <FullButtonStyle {...props}>
-        {props.children}{props.value}
-    </FullButtonStyle>
-}
+const ButtonPrimary = styled(Base)`
+    background-color: ${colors.primary};
+    color: ${colors.light};
+`
 
 const FullInput = styled.input`
     display: block;
     width: 100%;
     padding: 10px;
+    border-radius: 5px;
+    border: 1px solid ${colors.medium};
     box-sizing: border-box;
+    min-height: 50px;
     text-align: center;
 `
 
@@ -41,8 +37,10 @@ const Input = styled.input`
 `
 
 export {
+    Base,
     Button,
-    FullButton,
     Input,
-    FullInput
+    FullInput,
+    ButtonPrimary,
+    ButtonSuccess
 }
