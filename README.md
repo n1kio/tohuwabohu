@@ -2,6 +2,12 @@
 Der Organisator für Gruppentreffen. 
 DEMO: http://3.126.207.88:3000/
 
+## Installation
+- in `app`-Verzeichnis wechseln: `cd app`
+- Docker Container bauen und mit Tag "tohuwabohu" versehen: `docker build -t tohuwabohu .`
+- Docker Container ausführen: `docker run -it -p 3000:3000 -p 3001:3001 tohuwabohu`
+- Die App kann nun im Browser unter http://localhost:3000 aufgerufen werden
+
 ## Hintergrund
 Ein Treffen mit vielen Personen zu organisieren kann anstrengend sein. 
 
