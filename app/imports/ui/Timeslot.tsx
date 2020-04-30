@@ -136,6 +136,7 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
                             placeholderText="Neuen Vorschlag hinzufügen"
                             showTimeSelect
                             selected={proposedTimeslot}
+                            withPortal
                             customInput={<FullInput/>}
                             onChange={(date:Date) => {
                                 setProposeTimeslot(date)
