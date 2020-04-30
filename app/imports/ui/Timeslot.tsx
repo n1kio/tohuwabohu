@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker'
 import { Event, Participant } from '/imports/api/events'
 import { Base, Button, ButtonPrimary, FullInput } from '/imports/ui/Primitives'
 import colors from '/imports/ui/Colors'
-import { hasParticipantTimeslot, uniqueTimeslots, formatDateTime } from '/imports/util'
+import { hasParticipantTimeslot, uniqueTimeslots, formatDateTime, countParticipants } from '/imports/util'
 
 interface TimeslotProps {
     participants:[Participant]
@@ -22,27 +22,82 @@ const TimeslotStyle = styled(Base)`
     display: block;
     text-align: left;
     font-weight: ${props => props.selected ? 'bold' : 'inherit'};
+
+    .timestring {
+        margin-bottom: 10px;
+    }
+
+    .spread-horizontal {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
 `
 
 const Timeslot = (props:TimeslotProps) => {
     if(!props.participants || !props.userEmail || !props.timeslot) {
+        console.log('no props')
         return null
     }
     const selected = hasParticipantTimeslot(props.participants, props.userEmail, props.timeslot)
     const timeslotString = formatDateTime(props.timeslot)
     return (
         <TimeslotStyle {...props} selected={selected}>
-            <div>
+            <div className="spread-horizontal">
                 <div>
-                    {timeslotString}
+                    <div className="timestring">
+                        {timeslotString}
+                    </div>
+                    <div className="participant-indicator">
+                        {countParticipants(props.participants, props.timeslot)} Teilnehmer
+                    </div>
                 </div>
-                <div>
-                    {selected ? '(bestätigt)' : '(unbestätigt)'}
+                <div className="confirm-state">
+                    {selected ? 'bestätigt' : 'unbestätigt'}
                 </div>
             </div>
             {props.children}
         </TimeslotStyle>
     )
+}
+
+interface AvailableTimeslotsProps {
+    event:Event
+    userEmail:string
+}
+
+const AvailableTimeslots = (props:AvailableTimeslotsProps) => {
+    const event = props.event
+    const userEmail = props.userEmail
+    if(event && userEmail) {
+        const eventId = event._id
+        return (
+            <div>
+                {uniqueTimeslots(event).sort((a, b) => {return a - b}).map((timeslot, i) => {
+                    return (
+                        <Timeslot key={i}
+                                  onClick={() => {
+                                      Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
+                                          if(err) {
+                                              Swal.fire({
+                                                  title: 'Konnte Vorschlag nicht akzeptieren.',
+                                                  text: err,
+                                                  icon: 'error'
+                                              })
+                                          }
+                                  })}}
+                                  participants={event.participants}
+                                  userEmail={userEmail}
+                                  timeslot={timeslot}
+                        />
+                    )
+                })}
+            </div>
+        )
+    } else {
+        return null
+    }
 }
 
 interface TimeslotProposeProps {
@@ -62,23 +117,9 @@ const TimeslotPropose = (props:TimeslotProposeProps) => {
 
     return (
         <div>
-            {(event && event.participants) ? uniqueTimeslots(event).sort((a, b) => {return a - b}).map((timeslot, i) => (
-                <Timeslot key={i}
-                          onClick={() => {
-                              Meteor.call('events.toggleTimeslot', {timeslot, eventId, userEmail}, (err) => {
-                                  if(err) {
-                                      Swal.fire({
-                                          title: 'Konnte Vorschlag nicht akzeptieren.',
-                                          text: err,
-                                          icon: 'error'
-                                      })
-                                  }
-                          })}}
-                          participants={event.participants}
-                          userEmail={userEmail}
-                          timeslot={timeslot}
-                />
-            )) : null}
+            {(event && event.participants) ? (
+                <AvailableTimeslots event={event} userEmail={userEmail} />
+            ) : null}
             <div>
                 <DatePicker timeFormat="HH:mm"
                             timeIntervals={15}

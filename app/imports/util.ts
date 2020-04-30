@@ -60,11 +60,24 @@ const formatDateTime = (date:Date):string => {
     return date.toLocaleString('de-DE')
 }
 
+const countParticipants = (participants:[Participant], timeslot:Date) => {
+    let count = 0
+    participants.forEach((participant) => {
+        participant.timeslots?.forEach((pTimeslot) => {
+            if(''+pTimeslot === ''+timeslot) {
+                count += 1
+            }
+        })
+    })
+    return count
+}
+
 export {
     hasParticipantTimeslot,
     roundTime,
     eventUrl,
     uniqueTimeslots,
     isEmailValid,
-    formatDateTime
+    formatDateTime,
+    countParticipants
 }
