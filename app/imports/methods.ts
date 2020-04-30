@@ -34,8 +34,8 @@ Meteor.methods({
             to: event.authorEmail,
             from: fromMail ? fromMail : event.authorEmail,
             subject: 'Glückwunsch, dein Event wurde angelegt!',
-            text: `Das Event mit dem Titel ${event.title} wurde erfolgreich angelegt. Bearbeite es oder lade Freunde unter ${eventUrl(eventId)}`,
-            html: `<h1>${event.title}</h1><p>Das Event mit dem Titel <strong>${event.title}</strong> wurde erfolgreich angelegt.</p><p>Bearbeite es oder lade Freunde unter <a href="${eventUrl(eventId)}">${eventUrl(eventId)}</a></p>`,
+            text: `Das Event mit dem Titel ${event.title} wurde erfolgreich angelegt. Bearbeite es oder lade Freunde ein unter ${eventUrl(eventId)}`,
+            html: `<h1>${event.title}</h1><p>Das Event mit dem Titel <strong>${event.title}</strong> wurde erfolgreich angelegt.</p><p>Bearbeite es oder lade Freunde ein unter <a href="${eventUrl(eventId)}">${eventUrl(eventId)}</a></p>`,
         })
         return eventId
     },
