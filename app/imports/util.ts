@@ -59,7 +59,7 @@ const isEmailValid = (email:string):boolean => {
 
 const formatDateTime = (date:Date):string => {
     moment.locale('de')
-    let now = moment(date).tz("Europe/Berlin").format('DD.MM.YYYY, HH:mm')
+    let now = moment(date).tz("Europe/Berlin").format('dddd DD.MM.YYYY, HH:mm')
     return now + ' Uhr'
 }
 
