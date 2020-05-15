@@ -80,6 +80,12 @@ const Select = styled.select`
     font-size: 1rem;
 `
 
+const Spacer = styled.div`
+    @media (min-width: 768px) {
+        height: 10vh;
+    }
+`
+
 
 export {
     Base,
@@ -91,5 +97,6 @@ export {
     ButtonPrimary,
     ButtonSuccess,
     ButtonDisabled,
-    Select
+    Select,
+    Spacer
 }
