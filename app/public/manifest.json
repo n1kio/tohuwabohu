@@ -1,0 +1,21 @@
+{
+    "short_name": "tohuwabohu",
+    "name": "tohuwabohu - Einfach Online-Treffen organisieren!",
+    "start_url": "/",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/icons-192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/icons-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "background_color": "#D096F4",
+    "scope": "/",
+    "theme_color": "#D096F4"
+}

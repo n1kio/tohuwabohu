@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css"
 
 import './router'
 import '/imports/methods'
+import '/imports/serviceWorker'
 
 import App from '/imports/ui/App'
 
