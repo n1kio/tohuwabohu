@@ -20,14 +20,14 @@ const UserSelectionStyle = styled.div`
     border-radius: 5px;
     color: ${colors.light};
     span, p, a {
-        font-weight: bold;
+    font-weight: bold;
     }
     a {
-        color: ${colors.light};
-        text-decoration: none;
+    color: ${colors.light};
+    text-decoration: none;
     }
     a:hover {
-        text-decoration: underline;
+    text-decoration: underline;
     }
 `
 
@@ -42,25 +42,25 @@ const UserSelection = (props : UserSelectionProps) => {
         <UserSelectionStyle>
             {!showAdd ? (
                 <div className="spread-horizontal">
-                <Select type="dropdown" value={selected || ''} onChange={(e) => {
-                    const newUserEmail = e.target.value
-                    setSelected(newUserEmail)
-                    ls('userEmail', newUserEmail)
-                    setShowAdd(false)
-                    changeCb(newUserEmail)
-                }}
-                >
-                    {!ls('userEmail') ? (
-                        <option value="">Namen wählen</option>
-                    ) : null}
-                    {props.participants?.map((participant, i) => {
-                        return (
-                            <option key={i} value={participant.email}>
-                                {participant.name}
-                            </option>
-                        )
-                    })}
-                </Select>
+                    <Select type="dropdown" value={selected || ''} onChange={(e) => {
+                        const newUserEmail = e.target.value
+                        setSelected(newUserEmail)
+                        ls('userEmail', newUserEmail)
+                        setShowAdd(false)
+                        changeCb(newUserEmail)
+                    }}
+                    >
+                        {!ls('userEmail') ? (
+                            <option value="">Namen wählen</option>
+                        ) : null}
+                        {props.participants?.map((participant, i) => {
+                            return (
+                                <option key={i} value={participant.email}>
+                                    {participant.name}
+                                </option>
+                            )
+                        })}
+                    </Select>
                     <a href="#" onClick={() => {
                         setShowAdd(true)
                     }}>
@@ -107,42 +107,52 @@ const UserSelection = (props : UserSelectionProps) => {
                                     })
                                     return false
                                 }
-                                Meteor.call('events.addParticipant', {eventId: props.eventId, participant}, (err) => {
-                                    if(err) {
-                                        Swal.fire({
-                                            title: 'Konnte Vorschlag nicht hinzufügen.',
-                                            text: err,
-                                            icon: 'error'
-                                        })
-                                    } else {
-                                        setShowAdd(false)
-                                        setNewName('')
-                                        setNewEmail('')
-                                        changeCb()
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: `${participant.name} hinzugefügt.`,
-                                            timer: 1000,
-                                            showConfirmButton: false
+                                Swal.fire({
+                                    title: 'Bist du mit der Verarbeitung deiner Daten einverstanden?',
+                                    text: 'Zum Anlegen eines Teilnehmers und zur Terminfindung speichern wir die von dir eingegebenen Daten. Darunter dein Name, deine E-Mail Adresse und von dir ausgewählte Zeitpunkte im Event.',
+                                    showCancelButton: true,
+                                    cancelButtonText: 'Abbrechen',
+                                    confirmButtonText: 'Ja, ich bin einverstanden'
+                                }).then((res) => {
+                                    if(res.value) {
+                                        Meteor.call('events.addParticipant', {eventId: props.eventId, participant}, (err) => {
+                                            if(err) {
+                                                Swal.fire({
+                                                    title: 'Konnte Vorschlag nicht hinzufügen.',
+                                                    text: err,
+                                                    icon: 'error'
+                                                })
+                                            } else {
+                                                setShowAdd(false)
+                                                setNewName('')
+                                                setNewEmail('')
+                                                changeCb()
+                                                Swal.fire({
+                                                    icon: 'success',
+                                                    title: `${participant.name} hinzugefügt.`,
+                                                    timer: 1000,
+                                                    showConfirmButton: false
+                                                })
+                                            }
                                         })
                                     }
-                                })
+                                }
                             }}>
                                 speichern
                             </ButtonPrimary>
 
-                        ) : <ButtonDisabled onClick={() => {
-                            Swal.fire({
-                                title: 'Bitte Namen und E-Mail Adresse angeben.',
-                                icon: 'info'
-                            })
-                        }}>speichern</ButtonDisabled>}
+                                ) : <ButtonDisabled onClick={() => {
+                                    Swal.fire({
+                                        title: 'Bitte Namen und E-Mail Adresse angeben.',
+                                        icon: 'info'
+                                    })
+                                }}>speichern</ButtonDisabled>}
                     </div>
                 </div>
-            ) : null}
+                        ) : null}
 
         </UserSelectionStyle>
-    )
+            )
 }
 
-export default UserSelection
+        export default UserSelection

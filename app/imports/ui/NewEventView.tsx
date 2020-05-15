@@ -68,19 +68,30 @@ const NewEventView = () => {
                                     email: authorEmail
                                 }]
                             }
-                            Meteor.call('events.create', event, (err, res) => {
-                                if(err) {
-                                    Swal.fire({
-                                        title: err,
-                                        icon: 'error'
-                                    })
-                                } else {
-                                    FlowRouter.go('view-event', {eventId: res})
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Event erfolgreich angelegt!',
-                                        timer: 1000,
-                                        showConfirmButton: false
+
+                            Swal.fire({
+                                title: 'Bist du mit der Verarbeitung deiner Daten einverstanden?',
+                                text: 'Zur Erstellung und Terminfindung deines Events speichern wir die von dir eingegebenen Daten. Darunter dein Name, deine E-Mail Adresse, den gewählten Raum, Titel und die Beschreibung deines Events.',
+                                showCancelButton: true,
+                                cancelButtonText: 'Abbrechen',
+                                confirmButtonText: 'Ja, ich bin einverstanden'
+                            }).then((res) => {
+                                if(res.value) {
+                                    Meteor.call('events.create', event, (err, res) => {
+                                        if(err) {
+                                            Swal.fire({
+                                                title: err,
+                                                icon: 'error'
+                                            })
+                                        } else {
+                                            FlowRouter.go('view-event', {eventId: res})
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Event erfolgreich angelegt!',
+                                                timer: 1000,
+                                                showConfirmButton: false
+                                            })
+                                        }
                                     })
                                 }
                             })
