@@ -2,29 +2,32 @@ import React from 'react'
 import { FlowRouter } from 'meteor/kadira:flow-router'
 
 import { Layout } from '/imports/ui/Layout'
-import { ButtonPrimary, Spacer } from '/imports/ui/Primitives'
+import { ButtonPrimary, Spacer, Hero } from '/imports/ui/Primitives'
 
 const Dashboard = () => (
     <Layout>
         <Spacer/>
         <h1>Einfach Online-Freizeit organisieren!</h1>
-        <h2>In 3 einfachen Schritten</h2>
-        <ol>
-            <li>Event erstellen</li>
-            <li>Link an Freunde schicken</li>
-            <li>Einen passenden Zeitpunkt terminieren</li>
-        </ol>
-        <div className="spaced">
-            <ButtonPrimary onClick={() => {
-                FlowRouter.go('new-event')
-            }}>Event erstellen</ButtonPrimary>
-        </div>
+        <Hero>
+            <h2>In 3 einfachen Schritten zum Online-Treffen</h2>
+            <ol>
+                <li>Event erstellen</li>
+                <li>Link an Freunde schicken</li>
+                <li>Einen passenden Zeitpunkt terminieren</li>
+            </ol>
+            <div className="spaced">
+                <ButtonPrimary onClick={() => {
+                    FlowRouter.go('new-event')
+                }}>Event erstellen</ButtonPrimary>
+            </div>
+        </Hero>
+
         <h2>Gibt es so etwas nicht schon?</h2>
         <p>
-            Tohuwabohu hebt sich von anderen Tools dadurch ab, dass die Terminfindung nicht erfordert weit in die Zukunft vorrausplanen zu müssen.
+            Tohuwabohu hebt sich von anderen Tools dadurch ab, dass die Terminfindung nicht erfordert, weit in die Zukunft vorrausplanen zu müssen.
         </p>
         <p>
-            Als Organisator machst du ein paar Vorschläge und sollten die nicht passen, dann können die Teilnehmer andere Vorschläge amchen. Wenn ein Zeitpunkt gefunden wurde kannst du den Zeitpunkt terminieren und alle Teilnehmer erhalten eine E-Mail als Bestätigung.
+            Als Organisator machst du ein paar Vorschläge und die eingeladenen Teilnehmer können entweder zu diesen zustimmen, oder selbst neue Vorschläge machen. Wenn ein Zeitpunkt gefunden wurde kannst du als Organisator den Zeitpunkt terminieren und alle Teilnehmer erhalten eine E-Mail als Bestätigung.
         </p>
         <h2>Hintergrund</h2>
         <p>

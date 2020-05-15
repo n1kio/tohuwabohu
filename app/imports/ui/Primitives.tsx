@@ -82,10 +82,16 @@ const Select = styled.select`
 
 const Spacer = styled.div`
     @media (min-width: 768px) {
-        height: 10vh;
+        height: 2vh;
     }
 `
 
+const Hero = styled.div`
+    min-height: 50px;
+    border: 1px solid ${colors.medium};
+    border-radius: 5px;
+    padding: 20px 30px;
+`
 
 export {
     Base,
@@ -98,5 +104,6 @@ export {
     ButtonSuccess,
     ButtonDisabled,
     Select,
-    Spacer
+    Spacer,
+    Hero
 }
