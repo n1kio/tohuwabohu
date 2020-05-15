@@ -1,4 +1,5 @@
 import { Participant } from '/imports/api/events'
+import moment from 'moment-timezone'
 
 const hasParticipantTimeslot = (participants:[Participant], userEmail:string, timeslot:Date):boolean => {
     /**
@@ -57,7 +58,9 @@ const isEmailValid = (email:string):boolean => {
 }
 
 const formatDateTime = (date:Date):string => {
-    return date.toLocaleString('de-DE') + ' Uhr'
+    moment.locale('de')
+    let now = moment(date).tz("Europe/Berlin").format('dddd DD.MM.YYYY, HH:mm')
+    return now + ' Uhr'
 }
 
 const countParticipants = (participants:[Participant], timeslot:Date) => {

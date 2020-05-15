@@ -7,6 +7,7 @@ import Dashboard from '/imports/ui/Dashboard'
 import EventView from '/imports/ui/EventView'
 import NewEventView from '/imports/ui/NewEventView'
 import FinalizeEventView from '/imports/ui/FinalizeEventView'
+import LegalView from '/imports/ui/LegalView'
 
 FlowRouter.route('/', {
     name: 'root',
@@ -40,6 +41,15 @@ FlowRouter.route('/e/:eventId/finalize', {
     action() {
         mount(App, {
             content: <FinalizeEventView/>
+        })
+    }
+})
+
+FlowRouter.route('/legal', {
+    name: 'legal',
+    action() {
+        mount(App, {
+            content: <LegalView/>
         })
     }
 })

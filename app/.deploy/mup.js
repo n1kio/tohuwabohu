@@ -1,14 +1,14 @@
 module.exports = {
     servers: {
         one: {
-            host: '3.126.207.88',
+            host: 'tohuwabohuapp.com',
             username: 'ubuntu',
             pem: '~/.ssh/aws.pem'
         }
     },
 
     app: {
-        name: 'freizeit-planer',
+        name: 'tohuwabohu',
         path: '../',
 
         servers: {

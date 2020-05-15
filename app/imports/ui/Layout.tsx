@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import colors from '/imports/ui/Colors'
+import { FlowRouter } from 'meteor/kadira:flow-router'
 
 interface LayoutProps {
     children: ReactNode
@@ -19,8 +20,8 @@ const HeaderStyle = styled.div`
     color: ${colors.light};
     text-align: center;
     a {
-        color: ${colors.light};
-        text-decoration: none;
+    color: ${colors.light};
+    text-decoration: none;
     }
 `
 
@@ -40,7 +41,10 @@ const FooterStyle = styled.div`
 `
 const Footer = () => {
     return <FooterStyle>
-        Made with ♥ in Darmstadt
+        <span>Made with ♥ in Darmstadt</span><span> - <a href="#" onClick={(e) => {
+            e.preventDefault()
+            FlowRouter.go('/legal')
+        }}>Impressum</a></span>
     </FooterStyle>
 }
 
