@@ -30,11 +30,13 @@ const EventView = (props) => {
 
                     <p>
                         {event.authorName} hat dich zu einem Online-Treffen eingeladen.
-                        Wähle einen existierenden Teilnehmer oder füge einen neuen hinzu.
                     </p>
 
                     {!event.final ? (
                         <div>
+                            <p>
+                                Wähle einen existierenden Teilnehmer oder füge einen neuen hinzu.
+                            </p>
                             <UserSelection eventId={event._id}
                                            participants={event.participants}
                                            selected={userEmail}
