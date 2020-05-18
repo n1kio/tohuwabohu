@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker'
 import { Event, Participant } from '/imports/api/events'
 import { Base, Button, Input } from '/imports/ui/Primitives'
 import colors from '/imports/ui/Colors'
-import { hasParticipantTimeslot, uniqueTimeslots, formatDateTime, countParticipants } from '/imports/util'
+import { hasParticipantTimeslot, uniqueTimeslots, formatDateTime, filterParticipants } from '/imports/util'
 
 interface TimeslotProps {
     participants:[Participant]
@@ -34,6 +34,8 @@ const Timeslot = (props:TimeslotProps) => {
     }
     const selected = hasParticipantTimeslot(props.participants, props.userEmail, props.timeslot)
     const timeslotString = formatDateTime(props.timeslot)
+    const filteredParticipants = filterParticipants(props.participants, props.timeslot)
+    const participantCount = filteredParticipants.length
     return (
         <TimeslotStyle {...props} selected={selected}>
             <div className="spread-horizontal">
@@ -42,7 +44,8 @@ const Timeslot = (props:TimeslotProps) => {
                         {timeslotString}
                     </div>
                     <div className="participant-indicator">
-                        {countParticipants(props.participants, props.timeslot)} Teilnehmer
+                        <span>{participantCount} Teilnehmer</span>
+                        <span>{props.participants.length > 0 ? " (" + filteredParticipants.map((participant) => {return " " + participant.name}) + " )"  : null}</span>
                     </div>
                 </div>
                 {!props.plain ? (

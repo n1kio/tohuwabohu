@@ -63,16 +63,16 @@ const formatDateTime = (date:Date):string => {
     return now + ' Uhr'
 }
 
-const countParticipants = (participants:[Participant], timeslot:Date) => {
-    let count = 0
-    participants.forEach((participant) => {
+const filterParticipants = (participants:[Participant], timeslot:date) => {
+    return participants.filter((participant) => {
+        let match = false
         participant.timeslots?.forEach((pTimeslot) => {
             if(''+pTimeslot === ''+timeslot) {
-                count += 1
+                match = true
             }
         })
+        return match
     })
-    return count
 }
 
 const defaultText = (text : string | undefined) => {
@@ -89,6 +89,6 @@ export {
     uniqueTimeslots,
     isEmailValid,
     formatDateTime,
-    countParticipants,
+    filterParticipants,
     defaultText
 }
