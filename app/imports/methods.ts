@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor'
 
 import { EventsCollection, Event, Participant } from '/imports/api/events'
 import { hasParticipantTimeslot, roundTime, eventUrl, isEmailValid, formatDateTime } from '/imports/util'
+import { google } from "calendar-link"
+import moment from 'moment-timezone'
 
 import { sendMail } from '/imports/notify'
 
@@ -80,7 +82,7 @@ Meteor.methods({
 
     'events.finalize': ({eventId, finalDate}:{eventId:string, finalDate:Date}) => {
         const event = EventsCollection.findOne({_id: eventId})
-        if (!event) {
+        if (!event || !event._id) {
             throw new Meteor.Error(500, 'Event not found.')
         }
 
@@ -89,15 +91,27 @@ Meteor.methods({
             finalDate
         }})
 
+        moment.locale('de')
+        const eventDate = moment(finalDate).tz('Europe/Berlin')
+        const calendarEvent = {
+            title: event.title,
+            description: event.description,
+            start: eventDate,
+            location: event.space,
+            duration: [1, 'hour'],
+            url: eventUrl(event._id)
+        }
+        const googleLink = google(calendarEvent)
+
         const fromMail = Meteor.settings.public.from_email
         event.participants?.forEach((participant) => {
             if(isEmailValid(participant.email)) {
                 sendMail({
                     to: participant.email,
                     from: fromMail ? fromMail : event.authorEmail,
-                    subject: `${event.authorName} hat das Event "${event.title}" finalisiert!`,
-                    text: `${event.title} findet zur folgenden Zeit statt: ${formatDateTime(finalDate)}. Treffpunkt ist: ${event.space}. Link zum Event: ${eventUrl(eventId)}`,
-                    html: `${event.title} findet zur folgenden Zeit statt: ${formatDateTime(finalDate)}. <br>Treffpunkt ist: ${event.space}. <br><br>Link zum Event: ${eventUrl(eventId)}`,
+                    subject: `${event.authorName} hat das Event "${event.title}" finalisiert! 🎉`,
+                    text: `${event.title} findet zur folgenden Zeit statt: ${formatDateTime(finalDate)}. Treffpunkt ist: ${event.space}. Link zum Event: ${eventUrl(eventId)} Link um zu Google Kalendar hinzuzufügen: ${googleLink}`,
+                    html: `${event.title} findet zur folgenden Zeit statt: ${formatDateTime(finalDate)}. <br>Treffpunkt ist: ${event.space}. <br><br>Link zum Event: ${eventUrl(eventId)}<br><br><a href="${googleLink}">Zu Google Kalendar hinzufügen</a>`,
                 })
             } else {
                 console.warn('Invalid email', participant.email)

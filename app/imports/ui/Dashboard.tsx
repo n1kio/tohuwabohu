@@ -24,23 +24,20 @@ const Dashboard = () => (
 
         <h2>Gibt es so etwas nicht schon?</h2>
         <p>
-            Tohuwabohu hebt sich von anderen Tools dadurch ab, dass die Terminfindung nicht erfordert, weit in die Zukunft vorrausplanen zu müssen.
+            Der Unterschied zu anderen Tools liegt darin, dass die Terminfindung mit <b>tohuwabohu</b> nicht erfordert weit in die Zukunft sehen zu müssen. 🔮
         </p>
         <p>
-            Als Organisator machst du ein paar Vorschläge und die eingeladenen Teilnehmer können entweder zu diesen zustimmen, oder selbst neue Vorschläge machen. Wenn ein Zeitpunkt gefunden wurde kannst du als Organisator den Zeitpunkt terminieren und alle Teilnehmer erhalten eine E-Mail als Bestätigung.
+            Als Organisator reicht es bereits ein paar wenige Zeitvorschläge zu machen. Die eingeladenen Teilnehmer können dann Vorschläge annehmen oder neue Vorschläge hinzufügen. Sobald ein Zeitpunkt gefunden wurde kann der Organisator den Zeitpunkt festmachen und alle Teilnehmer erhalten eine E-Mail als Bestätigung.
         </p>
         <h2>Hintergrund</h2>
         <p>
-            Ein Treffen mit vielen Personen zu organisieren kann anstrengend sein.
+            Ein Treffen mit vielen Personen zu organisieren kann anstrengend sein und erfordert oftmals viel Absprache. Ein Treffen mit vielen Personen bedeutet auch viele unterschiedliche Terminkalendar, Lebenssituationen und Präferenzen.
         </p>
         <p>
-            Häufig ist es nicht nur eine Herausforderung einen passenden Tag für ein Treffen zu finden, sondern auch einen geeigneten Treffpunkt auszumachen. Viele Personen bedeutet oft viele unterschiedliche Terminkalender, Lebenssituationen und Präferenzen.
+            Die Corona-Pandemie hat außerdem dazu geführt, dass typische physische Treffpunkte durch virtuelle Alternativen ersetzt werden müssen. WhatsApp-Gruppen, Doodle-Listen oder E-Mail-Verteiler können dieses Problem zwar teilweise lösen, aber es ist umständlich und das eigentliche Problem wird nicht gelöst: Einfach und intuitiv eine Zeit und einen Ort für ein Treffen mit Freunden zu finden.
         </p>
         <p>
-            Die Corona-Pandemie hat außerdem dazu geführt, dass typische physische Treffpunkte durch virtuelle Alternativen ersetzt werden müssen. WhatsApp-Gruppen, Doodle-Listen oder E-Mail-Verteiler können dieses Problem zwar lösen, aber es ist umständlich und sind keine speziellen Lösungen für das eigentliche Problem: Einfach und intuitiv eine Zeit und einen Ort für ein Treffen mit Freunden zu finden.
-        </p>
-        <p>
-            Mithilfe von TOHUWABOHU kann ein Online-Gruppentreffen nun leicht und verständlich umgesetzt werden.
+            Mithilfe von <b>tohuwabohu</b> kann ein Online-Gruppentreffen nun leicht und ohne langes hin und her umgesetzt werden.
         </p>
         <div className="spaced">
             <ButtonPrimary onClick={() => {

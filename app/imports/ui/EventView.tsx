@@ -48,7 +48,8 @@ const EventView = (props) => {
                         </div>
                     ) : null}
 
-                    <EventDetails title={defaultText(event.title)}
+                    <EventDetails eventId={event._id}
+                                  title={defaultText(event.title)}
                                   description={defaultText(event.description)}
                                   space={defaultText(event.space)}
                                   participants={event.participants}

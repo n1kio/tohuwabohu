@@ -1,8 +1,10 @@
 import React from 'react'
-import { formatDateTime } from '/imports/util'
+import { formatDateTime, eventUrl } from '/imports/util'
 import { Participant } from '/imports/api/events'
+import CalendarLink from '/imports/ui/CalendarLink'
 
 interface EventDetailsProps {
+    eventId:string
     title:string
     description:string
     space:string
@@ -17,9 +19,19 @@ const EventDetails = (props:EventDetailsProps) => {
             <h2>
                 {props.title}
             </h2>
-            <p>
-                {(props.final && props.finalDate) ? <span><strong>Zeit</strong>: {''+formatDateTime(props.finalDate)}</span> : null}
-            </p>
+            {(props.final && props.finalDate) ? (
+                <div>
+                    <span>
+                        <strong>Zeit</strong>: {''+formatDateTime(props.finalDate)}
+                    </span>
+                    <CalendarLink title={props.title}
+                                  start={props.finalDate}
+                                  duration={[1, 'hour']}
+                                  space={props.space}
+                                  description={props.description}
+                                  url={eventUrl('eventId')} />
+                </div>
+            ) : null}
             <p>
                 <strong>Beschreibung</strong>: {props.description}
             </p>
