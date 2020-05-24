@@ -15,7 +15,7 @@ import { defaultText } from '/imports/util'
 
 const EventView = (props) => {
     const event = props.event
-    const [userEmail, setUserEmail] = useState<string | void>(ls('userEmail'))
+    const [userEmail, setUserEmail] = useState<string|void>(ls('userEmail'))
     const eventId = FlowRouter.getParam('eventId')
 
     useEffect(() => {
@@ -90,8 +90,17 @@ const EventView = (props) => {
 export default withTracker(() => {
     const eventId = FlowRouter.getParam('eventId')
     const handle = Meteor.subscribe('event', eventId)
+    const event = EventsCollection.findOne({_id: eventId})
+    if(event) {
+        const eventsVisited = ls('eventsVisited') ? ls('eventsVisited') : []
+        const alreadySeen = eventsVisited.find(event => event._id == eventId)
+        if(!alreadySeen) {
+            eventsVisited.unshift(event)
+            ls('eventsVisited', eventsVisited)
+        }
+    }
     return {
         loading: !handle.ready(),
-        event: EventsCollection.findOne({_id: eventId})
+        event: event
     }
 })(EventView)

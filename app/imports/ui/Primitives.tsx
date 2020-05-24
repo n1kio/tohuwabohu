@@ -91,6 +91,17 @@ const Hero = styled.div`
     border: 1px solid ${colors.medium};
     border-radius: 5px;
     padding: 20px 30px;
+    margin: 50px 0;
+`
+
+const Flex = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+
+    * {
+        margin-right: 20px;
+    }
 `
 
 export {
@@ -105,5 +116,6 @@ export {
     ButtonDisabled,
     Select,
     Spacer,
-    Hero
+    Hero,
+    Flex
 }
