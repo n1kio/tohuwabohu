@@ -20,7 +20,7 @@ const Dashboard = () => {
                     </p>
                     <Flex>
                         {eventsVisited.map((event:Event) => (
-                            <ButtonSuccess onClick={() => {FlowRouter.go('view-event', {eventId: event._id})}}>
+                            <ButtonSuccess key={event._id} onClick={() => {FlowRouter.go('view-event', {eventId: event._id})}}>
                                 {event.title}
                             </ButtonSuccess>
                         ))}
