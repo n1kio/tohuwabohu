@@ -2,6 +2,7 @@ import React from 'react'
 import { formatDateTime, eventUrl } from '/imports/util'
 import { Participant } from '/imports/api/events'
 import CalendarLink from '/imports/ui/CalendarLink'
+import { WhatsappShareButton } from 'react-share'
 
 interface EventDetailsProps {
     eventId:string
@@ -38,6 +39,10 @@ const EventDetails = (props:EventDetailsProps) => {
             <p>
                 <strong>Raum</strong>: {props.space}
             </p>
+            <WhatsappShareButton title={`Einladung zu ${props.title}`}
+                                 url={window.location}>
+                <a href="#">Per WhatsApp teilen</a>
+            </WhatsappShareButton>
         </div>
     )
 }
