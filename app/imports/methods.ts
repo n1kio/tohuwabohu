@@ -7,7 +7,6 @@ import moment from 'moment-timezone'
 
 import { sendMail } from '/imports/notify'
 
-const maximumTimeslots = 4
 const maximumParticipants = 15
 
 Meteor.methods({
