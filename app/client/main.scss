@@ -1,31 +1,31 @@
 html {
-    max-width: 100%;
+  max-width: 100%;
 }
 body {
-    padding: 0;
-    max-width: 100%;
-    margin: 0;
-    font-family: sans-serif;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+  font-family: sans-serif;
 }
 
 p {
-    line-height: 1.4rem;
+  line-height: 1.4rem;
 }
 
 hr {
-    margin: 20px 0;
+  margin: 20px 0;
 }
 
 .spread-horizontal {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .spaced {
-    padding: 20px 0;
-    @media (max-width: 768px) {
-        text-align: center;
-    }
+  padding: 20px 0;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 }
