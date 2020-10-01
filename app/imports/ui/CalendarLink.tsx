@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { google } from "calendar-link"
+import { Link } from "@chakra-ui/core"
 
 interface CalendarLinkProps {
     title:string
@@ -28,7 +29,7 @@ const CalendarLink = (props:CalendarLinkProps) => {
     }
     return (
         <CalendarLinkStyled>
-            <a href={google(event)}>Zu Google Kalendar hinzufügen</a>
+            <Link href={google(event)}>Zu Google Kalendar hinzufügen</Link>
         </CalendarLinkStyled>
     )
 }

@@ -9,9 +9,13 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.6",
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
     "@sendgrid/mail": "^7.1.0",
     "alert-node": "^3.0.11",
     "calendar-link": "^1.2.5",
+    "emotion-theming": "^10.0.27",
     "local-storage": "^2.0.0",
     "meteor-node-stubs": "^1.0.0",
     "moment-timezone": "^0.5.28",
