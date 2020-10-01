@@ -3,6 +3,7 @@ import { formatDateTime, eventUrl } from '/imports/util'
 import { Participant } from '/imports/api/events'
 import CalendarLink from '/imports/ui/CalendarLink'
 import { WhatsappShareButton } from 'react-share'
+import { Link, Stack, Heading, Text } from '@chakra-ui/core'
 
 interface EventDetailsProps {
     eventId:string
@@ -16,34 +17,34 @@ interface EventDetailsProps {
 
 const EventDetails = (props:EventDetailsProps) => {
     return (
-        <div>
-            <h2>
+        <Stack spacing={4}>
+            <Heading as="h2" size="lg">
                 {props.title}
-            </h2>
+            </Heading>
             {(props.final && props.finalDate) ? (
-                <div>
-                    <span>
+                <Stack>
+                    <Text>
                         <strong>Zeit</strong>: {''+formatDateTime(props.finalDate)}
-                    </span>
+                    </Text>
                     <CalendarLink title={props.title}
                                   start={props.finalDate}
                                   duration={[1, 'hour']}
                                   space={props.space}
                                   description={props.description}
                                   url={eventUrl('eventId')} />
-                </div>
+                </Stack>
             ) : null}
-            <p>
+            <Text>
                 <strong>Beschreibung</strong>: {props.description}
-            </p>
-            <p>
+            </Text>
+            <Text>
                 <strong>Raum</strong>: {props.space}
-            </p>
+            </Text>
             <WhatsappShareButton title={`Einladung zu ${props.title}`}
                                  url={window.location}>
-                <a href="#">Per WhatsApp teilen</a>
+                <Link href="#">Per WhatsApp teilen</Link>
             </WhatsappShareButton>
-        </div>
+        </Stack>
     )
 }
 

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { Meteor } from 'meteor/meteor'
 import { withTracker } from 'meteor/react-meteor-data'
 import { FlowRouter } from 'meteor/kadira:flow-router'
+import { Text, Box, Stack, Input, Select, Heading, Button } from "@chakra-ui/core"
 
 import ls from 'local-storage'
 
 import { EventsCollection } from '/imports/api/events'
 import { Layout } from '/imports/ui/Layout'
 import { TimeslotPropose } from '/imports/ui/Timeslot'
-import { ButtonSuccess, ButtonPrimary } from '/imports/ui/Primitives'
 import UserSelection from '/imports/ui/UserSelection'
 import EventDetails from '/imports/ui/EventDetails'
 import { defaultText } from '/imports/util'
@@ -25,27 +25,25 @@ const EventView = (props) => {
     return (
         <Layout>
             {event ? (
-                <div>
-                    <h1>Einladung zu "{defaultText(event.title)}"</h1>
+                <Stack>
 
-                    <p>
-                        {event.authorName} hat dich zu einem Online-Treffen eingeladen.
-                    </p>
+                    <Heading as="h1" size="lg">Einladung zu "{defaultText(event.title)}"</Heading>
+                    <Text>{event.authorName} hat dich zu einem Online-Treffen eingeladen.</Text>
 
                     {!event.final ? (
-                        <div>
-                            <p>
+                        <Stack>
+                            <Text>
                                 Wähle einen existierenden Teilnehmer oder füge einen neuen hinzu.
-                            </p>
+                            </Text>
                             <UserSelection eventId={event._id}
                                            participants={event.participants}
                                            selected={userEmail}
                                            changeCb={(res : string | undefined) => {
-                                               if(res) {
+                                              if(res) {
                                                    setUserEmail(res)
                                                }
                                            }} />
-                        </div>
+                        </Stack>
                     ) : null}
 
                     <EventDetails eventId={event._id}
@@ -56,32 +54,27 @@ const EventView = (props) => {
                                   finalDate={event.finalDate}
                                   final={event.final} />
 
-                    <hr />
 
                     {(userEmail && !event.final) ? (
-                        <div>
-                            <h2>Wann kannst du?</h2>
-                            <p>Du kannst einen vorhandenen Vorschläg bestätigen oder einen neuen hinzufügen.</p>
+                        <>
+                            <Heading as="h2" size="lg">Wann kannst du?</Heading>
+                            <Text>
+                                Du kannst einen vorhandenen Vorschläg bestätigen oder einen neuen hinzufügen.
+                            </Text>
                             <TimeslotPropose
                                 event={event}
                                 userEmail={userEmail} />
-                        </div>
+                        </>
                     ) : null}
 
                     {(userEmail === event.authorEmail) && !event.final ? (
-                        <div>
-                            <hr/>
-                            <div className="spread-horizontal">
-                                <div></div>
-                                <ButtonPrimary onClick={() => {
-                                    FlowRouter.go('finalize-event', {eventId: eventId})
-                                }}>
-                                    Zeitpunkt festmachen
-                                </ButtonPrimary>
-                            </div>
-                        </div>
+                        <Button variantColor="purple" variant="solid" onClick={() => {
+                            FlowRouter.go('finalize-event', {eventId: eventId})
+                        }}>
+                            Zeitpunkt festmachen
+                        </Button>
                     ) : null}
-                </div>
+                </Stack>
             ) : null}
         </Layout>
     )

@@ -1,0 +1,18 @@
+[22:2:34.511] Global cache location '/Users/nik/Library/Caches/typescript/3.8', safe file path '/users/nik/dev/tohuwabohu/app/node_modules/typescript/lib/typingsafelist.json', types map path /users/nik/dev/tohuwabohu/app/node_modules/typescript/lib/typesmap.json
+[22:2:34.512] Processing cache location '/Users/nik/Library/Caches/typescript/3.8'
+[22:2:34.512] Trying to find '/Users/nik/Library/Caches/typescript/3.8/package.json'...
+[22:2:34.515] Finished processing cache location '/Users/nik/Library/Caches/typescript/3.8'
+[22:2:34.515] Process id: 14318
+[22:2:34.515] NPM location: /usr/local/Cellar/node/14.11.0/bin/npm (explicit '--npmLocation' not  provided)
+[22:2:34.515] validateDefaultNpmLocation: false
+[22:2:34.516] Npm config file: /Users/nik/Library/Caches/typescript/3.8/package.json
+[22:2:34.516] Npm config file: '/Users/nik/Library/Caches/typescript/3.8/package.json' is missing, creating new one...
+[22:2:34.517] Updating types-registry npm package...
+[22:2:34.517] Exec: /usr/local/Cellar/node/14.11.0/bin/npm install --ignore-scripts types-registry@latest
+[22:2:34.526]     Failed. stdout:
+    
+    stderr:
+    /bin/sh: /usr/local/Cellar/node/14.11.0/bin/npm: No such file or directory
+    
+[22:2:34.526] Updated types-registry npm package
+[22:2:34.526] Types registry file '/Users/nik/Library/Caches/typescript/3.8/node_modules/types-registry/index.json' does not exist
