@@ -16,10 +16,14 @@ const Dashboard = () => {
                 <Hero>
                     <h2>Zuletzt gesehen</h2>
                     <p>
-                        Hier siehst du die letzten Events, die du mit diesen Gerät besucht hast.
+                        Hier siehst du die letzten 10 Events, die du mit diesen Gerät besucht hast. Das neuste Event steht vorne.
                     </p>
                     <Flex>
-                        {eventsVisited.map((event:Event) => (
+                        {eventsVisited
+                            .filter((x) => x.createdAt)
+                            .sort((a, b) => { return a?.createdAt < b?.createdAt })
+                            .slice(0, 10)
+                            .map((event: Event) => (
                             <ButtonSuccess key={event._id} onClick={() => {FlowRouter.go('view-event', {eventId: event._id})}}>
                                 {event.title}
                             </ButtonSuccess>
