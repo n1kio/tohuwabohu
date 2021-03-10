@@ -2,8 +2,6 @@
 # Tohuwabohu
 Der Organisator für Online Gruppentreffen.
 
-DEMO: https://tohuwabohuapp.com/
-
 ## Installation
 - Projekt klonen
 - in `app`-Verzeichnis wechseln: `cd app`
