@@ -9,10 +9,10 @@ const LegalView = () => {
         <Layout>
             <h1>Angaben gemäß § 5 TMG:</h1>
             <p>
-                Niklas Appelmann / Software und Beratung
+                Niklas Appelmann
             </p>
             <p>
-                Amselweg 46
+                Stephanstraße 8
             </p>
             <p>
                 64295 Darmstadt
