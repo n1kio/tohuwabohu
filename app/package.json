@@ -2,7 +2,7 @@
   "name": "tohuwabohu",
   "private": true,
   "scripts": {
-    "start": "meteor run",
+    "start": "meteor run --settings settings.json",
     "test": "meteor test --once --driver-package meteortesting:mocha",
     "test-app": "TEST_WATCH=1 meteor test --full-app --driver-package meteortesting:mocha",
     "visualize": "meteor --production --extra-packages bundle-visualizer"
@@ -12,7 +12,7 @@
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
-    "@sendgrid/mail": "^7.1.0",
+    "@sendgrid/mail": "^7.6.1",
     "alert-node": "^3.0.11",
     "calendar-link": "^1.2.5",
     "emotion-theming": "^10.0.27",
