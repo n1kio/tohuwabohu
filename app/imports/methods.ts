@@ -21,11 +21,8 @@ Meteor.methods({
       throw new Meteor.Error(500, "No event given.");
     }
     const eventId = EventsCollection.insert(event);
-    const fromMail =
-      Meteor.settings.public.from_email ?? "robo@niklasappelmann.de";
     sendMail({
       to: event.authorEmail,
-      from: fromMail,
       subject: "Glückwunsch, dein Event wurde angelegt!",
       text: `Das Event mit dem Titel ${
         event.title
@@ -165,12 +162,10 @@ Meteor.methods({
     };
     const googleLink = google(calendarEvent);
 
-    const fromMail = Meteor.settings.public.from_email;
     event.participants?.forEach((participant) => {
       if (isEmailValid(participant.email)) {
         sendMail({
           to: participant.email,
-          from: fromMail ? fromMail : event.authorEmail,
           subject: `${event.authorName} hat das Event "${event.title}" finalisiert! 🎉`,
           text: `${
             event.title
