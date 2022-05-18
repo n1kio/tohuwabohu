@@ -38,7 +38,7 @@ const EventDetails = (props:EventDetailsProps) => {
                 <strong>Beschreibung</strong>: {props.description}
             </Text>
             <Text>
-                <strong>Raum</strong>: {props.space}
+                <strong>Treffpunkt</strong>: {props.space}
             </Text>
             <WhatsappShareButton title={`Einladung zu ${props.title}`}
                                  url={window.location}>
